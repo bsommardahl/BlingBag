@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using StructureMap;
 
-namespace AcklenAvenue.DomainEvents.StructureMap
+namespace DomainEvents.StructureMap
 {
     public class StructureMapDomainEventDispatcher : IDomainEventDispatcher
     {

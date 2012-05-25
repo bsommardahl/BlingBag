@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AcklenAvenue.DomainEvents
+﻿namespace DomainEvents
 {
     public interface IDomainEventInitializer
     {

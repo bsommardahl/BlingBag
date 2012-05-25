@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AcklenAvenue.DomainEvents.Testing
+namespace DomainEvents.Testing
 {
     public class TestDomainEventDispatcher : IDomainEventDispatcher
     {

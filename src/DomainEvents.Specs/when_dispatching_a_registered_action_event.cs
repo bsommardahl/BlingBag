@@ -2,7 +2,7 @@
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace AcklenAvenue.DomainEvents.Specs
+namespace DomainEvents.Specs
 {
     public class when_dispatching_a_registered_action_event
     {

@@ -1,4 +1,4 @@
-﻿namespace AcklenAvenue.DomainEvents
+﻿namespace DomainEvents
 {
     public interface IDomainEventHandler<in T> 
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace AcklenAvenue.DomainEvents.Specs
+namespace DomainEvents.Specs
 {
     public class when_initializing_domain_events_for_an_account
     {

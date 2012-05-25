@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionDomainEventDispatcher.cs" />
+    <Compile Include="DefaultDomainEventDispatcher.cs" />
     <Compile Include="DomainEvent.cs" />
+    <Compile Include="DomainEventHandlers.cs" />
     <Compile Include="DomainEventInitializer.cs" />
     <Compile Include="IDomainEventDispatcher.cs" />
     <Compile Include="IDomainEventHandler.cs" />

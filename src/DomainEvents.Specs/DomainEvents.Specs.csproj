@@ -52,6 +52,7 @@
     <Compile Include="Account.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="LocationChanged.cs" />
+    <Compile Include="LogLocationChanged.cs" />
     <Compile Include="NameChanged.cs" />
     <Compile Include="NameChangedHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace AcklenAvenue.DomainEvents.Specs
+namespace DomainEvents.Specs
 {
     public class when_changing_the_account_name
     {

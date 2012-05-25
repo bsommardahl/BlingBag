@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AcklenAvenue.DomainEvents
+namespace DomainEvents
 {
     public class ActionDomainEventDispatcher : IDomainEventDispatcher
     {

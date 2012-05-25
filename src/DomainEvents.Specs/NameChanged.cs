@@ -1,4 +1,4 @@
-﻿namespace AcklenAvenue.DomainEvents.Specs
+﻿namespace DomainEvents.Specs
 {
     public class NameChanged
     {

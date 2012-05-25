@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AcklenAvenue.DomainEvents.Specs
+﻿namespace DomainEvents.Specs
 {
     public class Location
     {
@@ -14,14 +12,6 @@ namespace AcklenAvenue.DomainEvents.Specs
         {
             Address = address;
             RaiseEvent(new LocationChanged());
-        }
-    }
-
-    public class LogLocationChanged : IDomainEventHandler<LocationChanged>
-    {
-        public void Handle(LocationChanged @event)
-        {
-
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AcklenAvenue.DomainEvents.Testing
+namespace DomainEvents.Testing
 {
     public class EventNotDispatchedException<T> : Exception
     {

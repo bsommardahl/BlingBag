@@ -3,7 +3,7 @@ using Moq;
 using StructureMap;
 using It = Machine.Specifications.It;
 
-namespace AcklenAvenue.DomainEvents.StructureMap.Specs
+namespace DomainEvents.StructureMap.Specs
 {
     public class when_dispatching_an_event_with_handler_registered_in_the_container
     {
