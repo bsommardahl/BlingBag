@@ -15,10 +15,10 @@ namespace DomainEvents
             Handlers.Add(new KeyValuePair<Type, Type>(typeof (TEvent), typeof (THandler)));
         }
 
-        public static List<IDomainEventHandler<T>> GetFor<T>()
+        public static List<IDomainEventHandler<T>> GetFor<T>(T @event)
         {
             var handlersTypes = Handlers
-                .Where(x => x.Key == typeof (T))
+                .Where(x => x.Key == @event.GetType())
                 .Select(x => (x.Value));
 
             return handlersTypes.Select(x => Resolve(x)).Cast<IDomainEventHandler<T>>().ToList();

@@ -14,7 +14,7 @@ namespace DomainEvents.Specs
             {
                 _dispatcher = new DefaultDomainEventDispatcher();
 
-                DomainEventHandlers.Register<object, TestHandler>();
+                DomainEventHandlers.Register<TestClass, TestHandler>();
                 
                 _testHandler = new TestHandler();
                 DomainEventHandlers.Resolve = x => _testHandler;
