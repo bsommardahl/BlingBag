@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DomainEvents</id>
+    <version>1.0.1.1</version>
+    <title>DomainEvents</title>
+    <authors>sommardahl</authors>
+    <owners>sommardahl</owners>
+    <licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>https://github.com/bsommardahl/DomainEvents</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>DomainEvents is a library that helps implement domain events in a behavior-rich domain model.</description>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright 2012 Acklen Avenue, LLC</copyright>
+    <tags>domain-driven-design architecture</tags>
+  </metadata>
+</package>

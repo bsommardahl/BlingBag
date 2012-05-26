@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AcklenAvenue.DomainEvents.Testing")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DomainEvents")]
+[assembly: AssemblyDescription("DomainEvents.Testing provides structures that aid with testing domain events, dispatchers, and event handlers.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AcklenAvenue.DomainEvents.Testing")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyCompany("Acklen Avenue")]
+[assembly: AssemblyProduct("DomainEvents")]
+[assembly: AssemblyCopyright("Copyright © Acklen Avenue, LLC 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

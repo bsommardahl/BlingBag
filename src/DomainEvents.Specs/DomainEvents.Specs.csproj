@@ -56,6 +56,7 @@
     <Compile Include="NameChanged.cs" />
     <Compile Include="NameChangedHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestHandler.cs" />
     <Compile Include="when_changing_the_account_name.cs" />
     <Compile Include="when_dispatching_a_registered_action_event.cs" />
     <Compile Include="when_initializing_domain_events_for_an_account.cs" />

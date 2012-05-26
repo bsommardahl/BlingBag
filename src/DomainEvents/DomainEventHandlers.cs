@@ -6,20 +6,22 @@ namespace DomainEvents
 {
     public static class DomainEventHandlers
     {
-        static readonly IDictionary<Type, object> Handlers = new Dictionary<Type, object>();
+        static readonly IDictionary<Type, Type> Handlers = new Dictionary<Type, Type>();
 
-        public static void Register<T>(IDomainEventHandler<T> handler)
+        public static Func<Type, object> Resolve = x => Activator.CreateInstance(x);
+
+        public static void Register<TEvent, THandler>() where THandler : IDomainEventHandler<TEvent>
         {
-            Handlers.Add(typeof(T), handler);
+            Handlers.Add(typeof (TEvent), typeof (THandler));
         }
 
         public static List<IDomainEventHandler<T>> GetFor<T>()
         {
-            var handlers = Handlers
-                .Where(x => x.Key == typeof(T))
-                .Select(x => ((IDomainEventHandler<T>)x.Value));
+            var handlersTypes = Handlers
+                .Where(x => x.Key == typeof (T))
+                .Select(x => (x.Value));
 
-            return handlers.ToList();
+            return handlersTypes.Select(x => Resolve(x)).Cast<IDomainEventHandler<T>>().ToList();
         }
     }
 }

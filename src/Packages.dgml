@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="DomainEvents.StructureMap.Specs" Label="DomainEvents.StructureMap.Specs" Category="Project" />
+    <Node Id="Machine.Specifications 0.5.6.0" Label="Machine.Specifications 0.5.6.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="structuremap 2.6.3" Label="structuremap 2.6.3" Category="Package" />
+    <Node Id="DomainEvents.StructureMap" Label="DomainEvents.StructureMap" Category="Project" />
+    <Node Id="structuremap 2.6.3" Label="structuremap 2.6.3" Category="Package" />
+    <Node Id="DomainEvents.Specs" Label="DomainEvents.Specs" Category="Project" />
+    <Node Id="Machine.Specifications 0.5.6.0" Label="Machine.Specifications 0.5.6.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="DomainEvents.StructureMap.Specs" Target="Machine.Specifications 0.5.6.0" Category="Installed Package" />
+    <Link Source="DomainEvents.StructureMap.Specs" Target="Moq 4.0.10827" Category="Installed Package" />
+    <Link Source="DomainEvents.StructureMap.Specs" Target="structuremap 2.6.3" Category="Installed Package" />
+    <Link Source="DomainEvents.StructureMap" Target="structuremap 2.6.3" Category="Installed Package" />
+    <Link Source="DomainEvents.Specs" Target="Machine.Specifications 0.5.6.0" Category="Installed Package" />
+    <Link Source="DomainEvents.Specs" Target="Moq 4.0.10827" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+  </Styles>
+</DirectedGraph>

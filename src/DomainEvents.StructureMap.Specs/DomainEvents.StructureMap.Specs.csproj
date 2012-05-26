@@ -59,10 +59,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainEvents.StructureMap\DomainEvents.StructureMap.csproj">
-      <Project>{C7DC7F8A-1A48-41E3-8084-549AEF5AE244}</Project>
-      <Name>DomainEvents.StructureMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DomainEvents\DomainEvents.csproj">
       <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
       <Name>DomainEvents</Name>
