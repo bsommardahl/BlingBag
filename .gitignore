@@ -38,6 +38,7 @@ _ReSharper*/
 
 #Project files
 [Bb]uild/
+[Dd]eploy/
 
 #Subversion files
 .svn
