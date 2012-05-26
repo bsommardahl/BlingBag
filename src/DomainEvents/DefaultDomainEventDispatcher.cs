@@ -6,7 +6,8 @@
 
         public void Dispatch<T>(T @event)
         {
-            foreach (var handler in DomainEventHandlers.GetFor(@event))
+            var handlers = DomainEventHandlers.GetFor(@event);
+            foreach (IDomainEventHandler<T> handler in handlers)
             {
                 handler.Handle(@event);
             }

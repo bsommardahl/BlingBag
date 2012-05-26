@@ -2,6 +2,6 @@
 {
     public interface IDomainEventInitializer
     {
-        void Initialize<T>(T obj, DomainEvent eventHandler);
+        void Initialize<T>(T obj);
     }
 }

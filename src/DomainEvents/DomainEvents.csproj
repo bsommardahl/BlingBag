@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultDomainEventDispatcher.cs" />
     <Compile Include="DomainEvent.cs" />
     <Compile Include="DomainEventHandlers.cs" />
     <Compile Include="DomainEventInitializer.cs" />

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using DomainEvents.Testing;
 using Machine.Specifications;
 
 namespace DomainEvents.Specs
@@ -7,12 +7,13 @@ namespace DomainEvents.Specs
     public class when_initializing_domain_events_for_an_account
     {
         static DomainEventInitializer _initializer;
-        static Account _account;
-        static List<object> _eventsRaised;
+        static Account _account;        
+        static TestDomainEventDispatcher _testDomainEventDispatcher;
 
         Establish context = () =>
             {
-                _initializer = new DomainEventInitializer();
+                _testDomainEventDispatcher = new TestDomainEventDispatcher();
+                _initializer = new DomainEventInitializer(_testDomainEventDispatcher);
                 var location = new Location
                     {
                         Account = new Account
@@ -26,14 +27,12 @@ namespace DomainEvents.Specs
                 _account = new Account
                     {
                         Location = location
-                    };
-
-                _eventsRaised = new List<object>();
+                    };                
             };
 
         Because of = () =>
             {
-                _initializer.Initialize(_account, x => _eventsRaised.Add(x));
+                _initializer.Initialize(_account);
                 _account.ChangeName("something else");
                 _account.Location.ChangeLocation("my house");
                 _account.Location.Account.ChangeName("changing");
@@ -41,12 +40,9 @@ namespace DomainEvents.Specs
             };
 
         It should_have_initialized_the_notifier_in_the_child_object =
-            () =>
-                {
-                    _eventsRaised.Any(x => x.GetType().Equals(typeof(LocationChanged))).ShouldBeTrue();
-                };
+            () => _testDomainEventDispatcher.ShouldHaveDispatched<LocationChanged>();
 
         It should_have_initialized_the_notifier_in_the_parent_object =
-            () => _eventsRaised.Any(x => x.GetType().Equals(typeof (NameChanged))).ShouldBeTrue();
+            () => _testDomainEventDispatcher.ShouldHaveDispatched<NameChanged>();
     }
 }
