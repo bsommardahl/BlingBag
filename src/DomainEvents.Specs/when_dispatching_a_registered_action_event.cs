@@ -7,7 +7,7 @@ namespace DomainEvents.Specs
     public class when_dispatching_a_registered_action_event
     {
         static DefaultDomainEventDispatcher _dispatcher;
-        static Mock<object> _event;
+        static Mock<TestClass> _event;
         static TestHandler _testHandler;
 
         Establish context = () =>
@@ -19,7 +19,7 @@ namespace DomainEvents.Specs
                 _testHandler = new TestHandler();
                 DomainEventHandlers.Resolve = x => _testHandler;
 
-                _event = new Mock<object>();
+                _event = new Mock<TestClass>();
             };
 
         Because of = () => _dispatcher.Dispatch(_event.Object);
