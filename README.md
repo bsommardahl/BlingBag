@@ -1,6 +1,8 @@
 DomainEvents
 ============
 
+Nuget: https://nuget.org/packages/DomainEvents
+
 Inspired by:
 
 Bootstrapping:
