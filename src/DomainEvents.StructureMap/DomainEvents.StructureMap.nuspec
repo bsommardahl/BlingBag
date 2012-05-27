@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>DomainEvents</id>
+    <id>DomainEvents.StructureMap</id>
     <version>1.0.1.7</version>
-    <title>DomainEvents</title>
+    <title>DomainEvents.StructureMap</title>
     <authors>sommardahl</authors>
     <owners>sommardahl</owners>
     <licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
     <projectUrl>https://github.com/bsommardahl/DomainEvents</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>DomainEvents is a library that helps implement domain events in a behavior-rich domain model.</description>
-    <releaseNotes>More bug fixes to dispatchers.</releaseNotes>
+    <description>DomainEvents.StructureMap adds a dispatcher based off of StructureMap registrations.</description>
+    <releaseNotes>Initial release.</releaseNotes>
     <copyright>Copyright 2012 Acklen Avenue, LLC</copyright>
     <tags>DDD architecture</tags>
   </metadata>

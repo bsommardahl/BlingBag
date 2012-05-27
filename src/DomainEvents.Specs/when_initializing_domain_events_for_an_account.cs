@@ -23,10 +23,11 @@ namespace DomainEvents.Specs
                                         Account = _account
                                     }
                             },
+                        Account2 = null,
                     };
                 _account = new Account
                     {
-                        Location = location
+                        Location = location,                        
                     };                
             };
 

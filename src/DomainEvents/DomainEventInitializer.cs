@@ -49,6 +49,8 @@ namespace DomainEvents
 
         void Set(object obj, DomainEvent @delegate, HashSet<object> seen)
         {
+            if (obj == null) return;
+
             if (seen.Contains(obj)) return;
 
             Func<EventInfo, FieldInfo> getField =
