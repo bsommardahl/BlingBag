@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DomainEvents</id>
-    <version>1.0.1.7</version>
+    <version>1.0.1.8</version>
     <title>DomainEvents</title>
     <authors>sommardahl</authors>
     <owners>sommardahl</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/bsommardahl/DomainEvents</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>DomainEvents is a library that helps implement domain events in a behavior-rich domain model.</description>
-    <releaseNotes>More bug fixes to dispatchers.</releaseNotes>
+    <releaseNotes>Added null check to handle null objects passed in.</releaseNotes>
     <copyright>Copyright 2012 Acklen Avenue, LLC</copyright>
     <tags>DDD architecture</tags>
   </metadata>

@@ -28,6 +28,8 @@ namespace DomainEvents
 
         void Dig(object obj, DomainEvent eventHandler, HashSet<object> seen)
         {
+            if (obj == null) return;
+
             PropertyInfo[] props = obj.GetType().GetProperties();
             foreach (PropertyInfo prop in props)
             {
