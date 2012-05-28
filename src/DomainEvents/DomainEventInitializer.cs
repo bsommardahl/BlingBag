@@ -16,8 +16,13 @@ namespace DomainEvents
 
         #region IDomainEventInitializer Members
 
-        public void Initialize<T>(T obj)
+        public void Initialize<T>(T obj) where T : class
         {
+            if(obj==null)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
             var seen = new HashSet<object>();
             DomainEvent eventHandler = x => _dispatcher.Dispatch(x);
             Set(obj, eventHandler, seen);
