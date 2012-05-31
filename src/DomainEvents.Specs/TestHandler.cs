@@ -1,16 +1,19 @@
-﻿namespace DomainEvents.Specs
+﻿using System;
+
+namespace DomainEvents.Specs
 {
-    public class TestHandler : IDomainEventHandler<TestClass>
+    public class TestHandler : IDomainEventHandler
     {
         public object EventHandled;
 
-        #region IDomainEventHandler<object> Members
-
-        public void Handle(TestClass @event)
+        public void Handle(object @event)
         {
             EventHandled = @event;
         }
 
-        #endregion
+        public Type Handles
+        {
+            get { return typeof (TestClass); }
+        }        
     }
 }

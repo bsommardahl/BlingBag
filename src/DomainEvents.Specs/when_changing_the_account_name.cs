@@ -1,4 +1,5 @@
 ﻿using Machine.Specifications;
+using It = Machine.Specifications.It;
 
 namespace DomainEvents.Specs
 {

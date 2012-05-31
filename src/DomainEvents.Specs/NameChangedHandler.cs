@@ -1,13 +1,17 @@
-﻿namespace DomainEvents.Specs
-{
-    public class NameChangedHandler : IDomainEventHandler<NameChanged>
-    {
-        #region IEventHandler<NameChanged> Members
+﻿using System;
 
-        public void Handle(NameChanged @event)
+namespace DomainEvents.Specs
+{
+    public class NameChangedHandler : IDomainEventHandler
+    {
+        public Type Handles
         {
+            get { return typeof (NameChanged); }
         }
 
-        #endregion
+        public void Handle(object @event)
+        {
+            
+        }
     }
 }

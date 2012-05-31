@@ -6,8 +6,8 @@ namespace DomainEvents.Specs
     public class when_getting_registered_handlers_for_an_event
     {
         static object _testClass;
-        static List<object> _result;
-        static List<IDomainEventHandler<TestClass>> _expectedListOfHandlers;
+        static List<IDomainEventHandler> _result;
+        static List<IDomainEventHandler> _expectedListOfHandlers;
 
         Establish context = () =>
             {
@@ -18,7 +18,7 @@ namespace DomainEvents.Specs
                 var instantiatedTestHandler = new TestHandler();
                 DomainEventHandlers.Resolve = x => instantiatedTestHandler;
 
-                _expectedListOfHandlers = new List<IDomainEventHandler<TestClass>>
+                _expectedListOfHandlers = new List<IDomainEventHandler>
                     {
                         instantiatedTestHandler,
                     };

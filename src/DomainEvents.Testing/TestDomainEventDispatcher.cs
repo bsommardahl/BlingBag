@@ -7,7 +7,7 @@ namespace DomainEvents.Testing
     {
         readonly List<object> _list = new List<object>();
 
-        public void Dispatch<T>(T @event)
+        public void Dispatch(object @event)
         {
             _list.Add(@event);
         }

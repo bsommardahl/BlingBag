@@ -1,13 +1,13 @@
-﻿using Machine.Specifications;
+using System;
+using System.ComponentModel;
+using Machine.Specifications;
 using Moq;
-using StructureMap;
 using It = Machine.Specifications.It;
 
-namespace DomainEvents.StructureMap.Specs
+namespace DomainEvents.Specs
 {
-    public class when_dispatching_an_event_with_handler_registered_in_the_container
+    public class when_dispatching_an_event_with_a_registered_handler
     {
-        static Container _container;
         static Mock<IDomainEventHandler> _handler;
         static IDomainEventDispatcher _domainEventDispatcher;
         static Mock<object> _event;
@@ -15,14 +15,14 @@ namespace DomainEvents.StructureMap.Specs
         Establish context = () =>
             {
                 _event = new Mock<object>();
-
-                _container = new Container();
                 _handler = new Mock<IDomainEventHandler>();
+
+                DomainEventHandlers.Resolve = typeToResolve => _handler.Object;                
+                DomainEventHandlers.Register(_event.Object.GetType(), _handler.Object.GetType());
+
                 _handler.Setup(x => x.Handles).Returns(_event.Object.GetType());
 
-                _container.Configure(x => x.For<IDomainEventHandler>().Use(_handler.Object));
-
-                _domainEventDispatcher = new StructureMapDomainEventDispatcher(_container);
+                _domainEventDispatcher = new DefaultDomainEventDispatcher();
             };
 
         Because of = () => _domainEventDispatcher.Dispatch(_event.Object);

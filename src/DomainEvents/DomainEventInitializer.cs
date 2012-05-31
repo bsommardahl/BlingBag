@@ -16,7 +16,7 @@ namespace DomainEvents
 
         #region IDomainEventInitializer Members
 
-        public void Initialize<T>(T obj) where T : class
+        public void Initialize<TClass>(TClass obj) where TClass : class
         {
             if(obj==null)
             {
@@ -31,7 +31,7 @@ namespace DomainEvents
 
         #endregion
 
-        void Dig(object obj, DomainEvent eventHandler, HashSet<object> seen)
+        void Dig<TClass>(TClass obj, object eventHandler, HashSet<object> seen)  where TClass : class
         {
             if (obj == null) return;
 
@@ -51,10 +51,10 @@ namespace DomainEvents
 
         bool HasDomainEvents(PropertyInfo prop)
         {
-            return prop.PropertyType.GetEvents().Any(x => x.EventHandlerType == typeof(DomainEvent));
+            return prop.PropertyType.GetEvents().Any(x => x.EventHandlerType.Name.StartsWith("DomainEvent"));
         }
 
-        void Set(object obj, DomainEvent @delegate, HashSet<object> seen)
+        void Set<TClass>(TClass obj, object @delegate, HashSet<object> seen) where TClass : class
         {
             if (obj == null) return;
 
@@ -67,7 +67,7 @@ namespace DomainEvents
                                              BindingFlags.GetField);
 
             IEnumerable<EventInfo> domainEventInfos =
-                obj.GetType().GetEvents().Where(x => x.EventHandlerType == typeof(DomainEvent));
+                obj.GetType().GetEvents().Where(x => x.EventHandlerType.Name.StartsWith("DomainEvent"));
             List<FieldInfo> fields = domainEventInfos.Select(getField).ToList();
             fields.ForEach(x => x.SetValue(obj, @delegate));
 

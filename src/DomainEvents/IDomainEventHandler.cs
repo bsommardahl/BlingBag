@@ -1,7 +1,12 @@
-﻿namespace DomainEvents
+﻿using System;
+
+namespace DomainEvents
 {
-    public interface IDomainEventHandler<in T> 
+    public interface IDomainEventHandler
     {
-        void Handle(T @event);
+        Type Handles { get; }
+        void Handle(object @event);
     }
+
+    
 }

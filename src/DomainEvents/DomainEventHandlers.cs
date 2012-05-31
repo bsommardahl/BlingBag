@@ -10,18 +10,23 @@ namespace DomainEvents
 
         public static Func<Type, dynamic> Resolve = x => Activator.CreateInstance(x);
 
-        public static void Register<TEvent, THandler>() where THandler : IDomainEventHandler<TEvent>
+        public static void Register<TEvent, THandler>() where THandler : IDomainEventHandler
         {
-            Handlers.Add(new KeyValuePair<Type, Type>(typeof (TEvent), typeof (THandler)));
+            Handlers.Add(new KeyValuePair<Type, Type>(typeof(TEvent), typeof(THandler)));
         }
 
-        public static List<dynamic> GetFor<T>(T @event)
+        public static void Register(Type eventType, Type handlerType)
+        {
+            Handlers.Add(new KeyValuePair<Type, Type>(eventType, handlerType));
+        }
+
+        public static List<IDomainEventHandler> GetFor(object @event)
         {
             var handlersTypes = Handlers
-                .Where(x => x.Key.IsAssignableFrom(@event.GetType()))
+                .Where(x => x.Key.IsInstanceOfType(@event))
                 .Select(x => (x.Value));
 
-            var domainEventHandlers = handlersTypes.Select(x => Resolve(x));
+            var domainEventHandlers = handlersTypes.Select(x => Resolve(x)).Cast<IDomainEventHandler>();
 
             return domainEventHandlers.ToList();
         }

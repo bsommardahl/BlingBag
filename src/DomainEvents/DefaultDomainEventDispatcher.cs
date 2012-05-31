@@ -1,18 +1,11 @@
 ﻿namespace DomainEvents
 {
-    public class DefaultDomainEventDispatcher : IDomainEventDispatcher
+    public class DefaultDomainEventDispatcher :IDomainEventDispatcher
     {
-        #region IDomainEventDispatcher Members
-
-        public void Dispatch<T>(T @event)
+        public void Dispatch(object @event)
         {
             var handlers = DomainEventHandlers.GetFor(@event);
-            foreach (IDomainEventHandler<T> handler in handlers)
-            {
-                handler.Handle(@event);
-            }
+            handlers.ForEach(x => x.Handle(@event));
         }
-
-        #endregion
     }
 }

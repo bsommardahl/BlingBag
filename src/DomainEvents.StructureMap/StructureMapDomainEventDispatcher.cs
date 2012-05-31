@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using StructureMap;
 
 namespace DomainEvents.StructureMap
@@ -12,12 +13,16 @@ namespace DomainEvents.StructureMap
             _container = container;
         }
 
-        #region IDispatcher Members
+        #region IDomainEventDispatcher Members
 
-        public void Dispatch<T>(T @event)
+        public void Dispatch(object @event)
         {
-            var eventHandlers = _container.GetAllInstances<IDomainEventHandler<T>>().ToList();            
-            eventHandlers.ForEach(handler => handler.Handle(@event));
+            var domainEventHandlers = _container.GetAllInstances<IDomainEventHandler>();
+            var matchingDomainEventHandlers = domainEventHandlers.Where(x => x.Handles == @event.GetType());
+            foreach (var handler in matchingDomainEventHandlers)
+            {
+                handler.Handle(@event);
+            }
         }
 
         #endregion
