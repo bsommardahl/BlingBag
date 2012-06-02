@@ -43,7 +43,5 @@ namespace DomainEvents.Specs
             () =>
             _testDomainEventDispatcher.WithEventsDispatched<LocationChanged>()
                 .ShouldContain(x => x.NewLocation == "changing list location #2");
-
-
     }
 }

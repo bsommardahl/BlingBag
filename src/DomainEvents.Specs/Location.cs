@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DomainEvents.Specs
 {
@@ -9,6 +10,9 @@ namespace DomainEvents.Specs
         public Account Account { get; set; }
 
         public Account Account2 { get; set; }
+
+        public List<Account> ListOfAccounts { get; set; }
+        public ICollection<Account> CollectionOfAccounts { get; set; }
 
         public event DomainEvent RaiseEvent;
 

@@ -63,6 +63,8 @@
     <Compile Include="when_getting_registered_handlers_for_an_event.cs" />
     <Compile Include="when_initializing_domain_events_for_an_account.cs" />
     <Compile Include="when_initializing_domain_events_for_an_account_with_a_list_of_locations.cs" />
+    <Compile Include="when_initializing_domain_events_for_a_location_with_an_indexable_list_of_accounts.cs" />
+    <Compile Include="when_initializing_domain_events_for_a_location_with_a_collection_of_accounts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainEvents.Testing\DomainEvents.Testing.csproj">
