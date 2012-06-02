@@ -3,18 +3,23 @@ using System.Reflection;
 
 namespace DomainEvents
 {
-    public class DefaultDomainEventDispatcher :IDomainEventDispatcher
+    public class DefaultDomainEventDispatcher : IDomainEventDispatcher
     {
+        #region IDomainEventDispatcher Members
+
         public void Dispatch(object @event)
         {
-            var method = typeof(DomainEventHandlers).GetMethod("GetFor");
-            var generic = method.MakeGenericMethod(@event.GetType());
+            MethodInfo method = typeof (DomainEventHandlers).GetMethod("GetFor");
+            MethodInfo generic = method.MakeGenericMethod(@event.GetType());
             var handlers = (IList) generic.Invoke(null, new[] {@event});
 
-            foreach(dynamic handler in handlers)
+            foreach (object handler in handlers)
             {
-                handler.Handle(@event);
-            }            
+                MethodInfo handlerMethod = handler.GetType().GetMethod("Handle");
+                handlerMethod.Invoke(handler, new[] {@event});
+            }
         }
+
+        #endregion
     }
 }

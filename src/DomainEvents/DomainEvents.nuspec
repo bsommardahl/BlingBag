@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DomainEvents</id>
-    <version>1.0.2.0</version>
+    <version>1.0.2.1</version>
     <title>DomainEvents</title>
     <authors>sommardahl</authors>
     <owners>sommardahl</owners>
