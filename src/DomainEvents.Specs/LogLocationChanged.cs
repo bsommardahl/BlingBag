@@ -2,14 +2,9 @@
 
 namespace DomainEvents.Specs
 {
-    public class LogLocationChanged : IDomainEventHandler
+    public class LogLocationChanged : IDomainEventHandler<LocationChanged>
     {
-        public Type Handles
-        {
-            get { return typeof (LocationChanged); }
-        }
-
-        public void Handle(object @event)
+        public void Handle(LocationChanged @event)
         {
             
         }

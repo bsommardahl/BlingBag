@@ -12,7 +12,7 @@ namespace DomainEvents.SampleConsoleApp
             var container = new Container();
             container.Configure(x =>
                 {                    
-                    x.For<IDomainEventHandler>().Use<LogThatNameChanged>();
+                    x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
                 });
 
             DomainEventHandlers.Resolve = x => container.GetInstance(x);            

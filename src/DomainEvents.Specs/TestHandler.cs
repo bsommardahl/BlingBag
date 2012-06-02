@@ -2,18 +2,13 @@
 
 namespace DomainEvents.Specs
 {
-    public class TestHandler : IDomainEventHandler
+    public class TestHandler : IDomainEventHandler<TestClass>
     {
         public object EventHandled;
 
-        public void Handle(object @event)
+        public void Handle(TestClass @event)
         {
             EventHandled = @event;
-        }
-
-        public Type Handles
-        {
-            get { return typeof (TestClass); }
         }        
     }
 }

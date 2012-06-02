@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DomainEvents.StructureMap</id>
-    <version>1.0.1.7</version>
+    <version>1.0.1.11</version>
     <title>DomainEvents.StructureMap</title>
     <authors>sommardahl</authors>
     <owners>sommardahl</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/bsommardahl/DomainEvents</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>DomainEvents.StructureMap adds a dispatcher based off of StructureMap registrations.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Refactored the dispatcher to accomodate changes to DomainEvents.</releaseNotes>
     <copyright>Copyright 2012 Acklen Avenue, LLC</copyright>
     <tags>DDD architecture</tags>
   </metadata>

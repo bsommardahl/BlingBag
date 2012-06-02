@@ -22,9 +22,8 @@ namespace DomainEvents
             {
                 throw new ArgumentNullException("obj");
             }
-
             var seen = new HashSet<object>();
-            DomainEvent eventHandler = x => _dispatcher.Dispatch(x);
+            var eventHandler = new DomainEvent(@event => _dispatcher.Dispatch(@event));
             Set(obj, eventHandler, seen);
             Dig(obj, eventHandler, seen);
         }

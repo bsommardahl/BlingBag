@@ -8,19 +8,17 @@ namespace DomainEvents.Specs
 {
     public class when_dispatching_an_event_with_a_registered_handler
     {
-        static Mock<IDomainEventHandler> _handler;
+        static Mock<IDomainEventHandler<object>> _handler;
         static IDomainEventDispatcher _domainEventDispatcher;
         static Mock<object> _event;
 
         Establish context = () =>
             {
                 _event = new Mock<object>();
-                _handler = new Mock<IDomainEventHandler>();
+                _handler = new Mock<IDomainEventHandler<object>>();
 
                 DomainEventHandlers.Resolve = typeToResolve => _handler.Object;                
                 DomainEventHandlers.Register(_event.Object.GetType(), _handler.Object.GetType());
-
-                _handler.Setup(x => x.Handles).Returns(_event.Object.GetType());
 
                 _domainEventDispatcher = new DefaultDomainEventDispatcher();
             };

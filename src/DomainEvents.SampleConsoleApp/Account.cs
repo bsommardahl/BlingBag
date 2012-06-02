@@ -8,14 +8,15 @@ namespace DomainEvents.SampleConsoleApp
         }
 
         public string Name { get; private set; }
-        public event DomainEvent NotifyObservables;
+        
+        public event DomainEvent NotifyObservers;
 
         public void ChangeName(string newName)
         {
             var oldName = Name;
             Name = newName;
 
-            NotifyObservables(new TheNameChanged {OldName = oldName, NewName = newName});
+            NotifyObservers(new TheNameChanged {OldName = oldName, NewName = newName});
         }
     }
 }

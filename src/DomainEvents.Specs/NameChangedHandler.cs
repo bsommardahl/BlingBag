@@ -2,14 +2,9 @@
 
 namespace DomainEvents.Specs
 {
-    public class NameChangedHandler : IDomainEventHandler
+    public class NameChangedHandler : IDomainEventHandler<NameChanged>
     {
-        public Type Handles
-        {
-            get { return typeof (NameChanged); }
-        }
-
-        public void Handle(object @event)
+        public void Handle(NameChanged @event)
         {
             
         }

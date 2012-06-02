@@ -8,26 +8,25 @@ namespace DomainEvents.StructureMap.Specs
     public class when_dispatching_an_event_with_handler_registered_in_the_container
     {
         static Container _container;
-        static Mock<IDomainEventHandler> _handler;
+        static TestLocationChangedHandler _handler;
         static IDomainEventDispatcher _domainEventDispatcher;
-        static Mock<object> _event;
+        static LocationChanged _event;
 
         Establish context = () =>
             {
-                _event = new Mock<object>();
+                _event = new LocationChanged();
+
+                _handler = new TestLocationChangedHandler();
 
                 _container = new Container();
-                _handler = new Mock<IDomainEventHandler>();
-                _handler.Setup(x => x.Handles).Returns(_event.Object.GetType());
-
-                _container.Configure(x => x.For<IDomainEventHandler>().Use(_handler.Object));
+                _container.Configure(x => x.For<IDomainEventHandler<LocationChanged>>().Use(_handler));
 
                 _domainEventDispatcher = new StructureMapDomainEventDispatcher(_container);
             };
 
-        Because of = () => _domainEventDispatcher.Dispatch(_event.Object);
+        Because of = () => _domainEventDispatcher.Dispatch(_event);
 
         It should_dispatch_the_event_using_the_expected_handler =
-            () => _handler.Verify(x => x.Handle(Moq.It.Is<object>(y => y == _event.Object)));
+            () => _handler.Handled.ShouldEqual(_event);
     }
 }

@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Location.cs" />
+    <Compile Include="LocationChanged.cs" />
+    <Compile Include="TestLocationChangedHandler.cs" />
     <Compile Include="when_dispatching_an_event_with_handler_registered_in_the_container.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

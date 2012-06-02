@@ -17,9 +17,11 @@ namespace DomainEvents.StructureMap
 
         public void Dispatch(object @event)
         {
-            var domainEventHandlers = _container.GetAllInstances<IDomainEventHandler>();
-            var matchingDomainEventHandlers = domainEventHandlers.Where(x => x.Handles == @event.GetType());
-            foreach (var handler in matchingDomainEventHandlers)
+            var handlerType = typeof (IDomainEventHandler<>);
+            var genericHandlerType = handlerType.MakeGenericType(@event.GetType());
+            var domainEventHandlers = _container.GetAllInstances(genericHandlerType);
+
+            foreach (dynamic handler in domainEventHandlers)
             {
                 handler.Handle(@event);
             }
