@@ -14,7 +14,7 @@ namespace DomainEvents.Specs
 
         Establish context = () =>
             {
-                _event = new LocationChanged();
+                _event = new LocationChanged("some location");
                 _handler = new Mock<IDomainEventHandler<LocationChanged>>();
 
                 DomainEventHandlers.Resolve = typeToResolve => _handler.Object;                

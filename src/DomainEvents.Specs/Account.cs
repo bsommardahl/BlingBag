@@ -1,10 +1,14 @@
-﻿namespace DomainEvents.Specs
+﻿using System.Collections.Generic;
+
+namespace DomainEvents.Specs
 {
     public class Account
     {
         public string Name { get; private set; }
 
         public Location Location { get; set; }
+
+        public IEnumerable<Location> OldLocations { get; set; }
 
         public event DomainEvent NotifyObservers;
 

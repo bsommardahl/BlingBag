@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,37 +19,65 @@ namespace DomainEvents
 
         public void Initialize<TClass>(TClass obj) where TClass : class
         {
-            if(obj==null)
+            if (obj == null)
             {
                 throw new ArgumentNullException("obj");
             }
+
             var seen = new HashSet<object>();
             var eventHandler = new DomainEvent(@event => _dispatcher.Dispatch(@event));
-            Set(obj, eventHandler, seen);
-            Dig(obj, eventHandler, seen);
+            InitializeObject(obj, seen, eventHandler);
         }
 
         #endregion
 
-        void Dig<TClass>(TClass obj, object eventHandler, HashSet<object> seen)  where TClass : class
+        void InitializeObject<TClass>(TClass obj, HashSet<object> seen, DomainEvent eventHandler) where TClass : class
+        {
+            Set(obj, eventHandler, seen);
+            Dig(obj, eventHandler, seen);
+        }
+
+        void Dig<TClass>(TClass obj, DomainEvent eventHandler, HashSet<object> seen) where TClass : class
         {
             if (obj == null) return;
 
             PropertyInfo[] props = obj.GetType().GetProperties();
             foreach (PropertyInfo prop in props)
             {
-                if (!HasDomainEvents(prop)) continue;
+                if (IsCollection(prop))
+                {
+                    InitializeItemsInCollection(obj, eventHandler, seen, prop);
+                }
 
-                var objectWithDomainEvents = prop.GetValue(obj, null);
+                if (!IsClassThatHasDomainEvents(prop)) continue;
+
+                object objectWithDomainEvents = prop.GetValue(obj, null);
 
                 if (objectWithDomainEvents == null) continue;
-                
-                Set(objectWithDomainEvents, eventHandler, seen);
-                Dig(objectWithDomainEvents, eventHandler, seen);
+
+                InitializeObject(objectWithDomainEvents, seen, eventHandler);
             }
         }
 
-        bool HasDomainEvents(PropertyInfo prop)
+        void InitializeItemsInCollection<TClass>(TClass obj, DomainEvent eventHandler, HashSet<object> seen,
+                                                 PropertyInfo prop) where TClass : class
+        {
+            var collection = (IEnumerable) prop.GetValue(obj, null);
+            if (collection == null) return;
+
+            foreach (object item in collection)
+            {
+                InitializeObject(item, seen, eventHandler);
+            }
+        }
+
+        static bool IsCollection(PropertyInfo prop)
+        {
+            return prop.PropertyType.GetGenericArguments().Any() &&
+                   typeof (IEnumerable<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition());
+        }
+
+        bool IsClassThatHasDomainEvents(PropertyInfo prop)
         {
             return prop.PropertyType.GetEvents().Any(x => x.EventHandlerType.Name.StartsWith("DomainEvent"));
         }

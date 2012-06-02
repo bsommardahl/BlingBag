@@ -14,6 +14,8 @@ namespace DomainEvents.Specs
             {
                 _testDomainEventDispatcher = new TestDomainEventDispatcher();
                 _initializer = new DomainEventInitializer(_testDomainEventDispatcher);
+                var locationInList1 = new Location();
+                var locationInList2 = new Location();
                 var location = new Location
                     {
                         Account = new Account
@@ -21,7 +23,12 @@ namespace DomainEvents.Specs
                                 Location = new Location
                                     {
                                         Account = _account
-                                    }
+                                    },
+                                    OldLocations = new List<Location>
+                                        {
+                                            locationInList1,
+                                            locationInList2,
+                                        }
                             },
                         Account2 = null,
                     };
@@ -37,13 +44,27 @@ namespace DomainEvents.Specs
                 _account.ChangeName("something else");
                 _account.Location.ChangeLocation("my house");
                 _account.Location.Account.ChangeName("changing");
-                _account.Location.Account.Location.ChangeLocation("something else");
+                _account.Location.Account.Location.ChangeLocation("something else again");                
             };
 
-        It should_have_initialized_the_notifier_in_the_child_object =
-            () => _testDomainEventDispatcher.ShouldHaveDispatched<LocationChanged>();
+        It should_have_dispatched_an_event_on_a_parent_object =
+            () =>
+            _testDomainEventDispatcher.WithEventsDispatched<NameChanged>()
+                .ShouldContain(x => x.NewName == "something else");
 
-        It should_have_initialized_the_notifier_in_the_parent_object =
-            () => _testDomainEventDispatcher.ShouldHaveDispatched<NameChanged>();
+        It should_have_dispatched_an_event_on_a_child_object =
+            () =>
+            _testDomainEventDispatcher.WithEventsDispatched<LocationChanged>()
+                .ShouldContain(x => x.NewLocation == "my house");
+
+        It should_have_dispatched_an_event_on_a_child_of_a_child_object =
+            () =>
+            _testDomainEventDispatcher.WithEventsDispatched<NameChanged>()
+                .ShouldContain(x => x.NewName == "changing");
+
+        It should_have_dispatched_an_event_on_a_child_of_a_child_of_a_child_object =
+            () =>
+            _testDomainEventDispatcher.WithEventsDispatched<LocationChanged>()
+                .ShouldContain(x => x.NewLocation == "something else again");
     }
 }

@@ -15,7 +15,7 @@ namespace DomainEvents.Specs
         public void ChangeLocation(string address)
         {
             Address = address;
-            RaiseEvent(new LocationChanged());
+            RaiseEvent(new LocationChanged(address));
         }
     }
 }
