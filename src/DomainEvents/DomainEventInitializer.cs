@@ -44,7 +44,7 @@ namespace DomainEvents
             PropertyInfo[] props = obj.GetType().GetProperties();
             foreach (PropertyInfo prop in props)
             {
-                if (IsCollection(prop))
+                if (IsCollectionType(prop.PropertyType))
                 {
                     InitializeItemsInCollection(obj, eventHandler, seen, prop);
                 }
@@ -71,14 +71,9 @@ namespace DomainEvents
             }
         }
 
-        static bool IsCollection(PropertyInfo prop)
+        static bool IsCollectionType(Type type)
         {
-            if (!prop.PropertyType.GetGenericArguments().Any())
-                return false;
-
-            Type genericTypeDefinition = prop.PropertyType.GetGenericTypeDefinition();
-            var collectionTypes = new[] { typeof(IEnumerable<>), typeof(ICollection<>), typeof(IList<>), typeof(List<>) };
-            return collectionTypes.Any(x => x.IsAssignableFrom(genericTypeDefinition));
+            return typeof (IEnumerable).IsAssignableFrom(type);
         }
 
         bool IsClassThatHasDomainEvents(PropertyInfo prop)
