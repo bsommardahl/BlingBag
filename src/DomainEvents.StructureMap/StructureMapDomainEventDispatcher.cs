@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Reflection;
 using StructureMap;
 
 namespace DomainEvents.StructureMap
@@ -17,13 +18,14 @@ namespace DomainEvents.StructureMap
 
         public void Dispatch(object @event)
         {
-            var handlerType = typeof (IDomainEventHandler<>);
-            var genericHandlerType = handlerType.MakeGenericType(@event.GetType());
-            var domainEventHandlers = _container.GetAllInstances(genericHandlerType);
+            Type handlerType = typeof (IDomainEventHandler<>);
+            Type genericHandlerType = handlerType.MakeGenericType(@event.GetType());
+            IList domainEventHandlers = _container.GetAllInstances(genericHandlerType);
 
-            foreach (dynamic handler in domainEventHandlers)
+            foreach (object handler in domainEventHandlers)
             {
-                handler.Handle(@event);
+                MethodInfo handlerMethod = handler.GetType().GetMethod("Handle");
+                handlerMethod.Invoke(handler, new[] {@event});
             }
         }
 
