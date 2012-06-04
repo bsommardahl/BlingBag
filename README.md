@@ -3,10 +3,16 @@ DomainEvents
 
 Installation:
 -------------
-nuget> install-package DomainEvents
+
+http://nuget.org/packages/DomainEvents
+
+```
+install-package DomainEvents
+```
 
 License:
 --------
+Microsoft Public License (MS-PL) - http://www.opensource.org/licenses/MS-PL
 
 Use:
 ----
