@@ -12,47 +12,51 @@ Use:
 ----
 To use DomainEvents in your domain entities, just add an event field to your domain entity class like this:
 
-	public class Account {
-		public event DomainEvent NotifyObservers;
-	}
+```csharp
+public class Account {
+    public event DomainEvent NotifyObservers;
+}
+````
 
 We called the event “NotifyObservers” simply because that expresses what is happening. You can call the event field whatever you'd like. But, we recommend that you use a word or phrase that expresses a general notification of the subscribers or observers of the domain entity... not the specific behavior (i.e. “NotifyThatNameChanged” is not a good event field name since it's specific to a type of behavior. What happens if your domain entity has other types of behavior?)
 
 Now, to use the new DomainEvent field on your entity, you could do something like this:
 
 ```csharp
-    public class Account
+public class Account
+{
+    public Account(string name)
     {
-        public Account(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; private set; }
-        
-        public event DomainEvent NotifyObservers;
-
-        public void ChangeName(string newName)
-        {
-            var oldName = Name;
-            Name = newName;
-
-	//here, we're going to notify the users that the name changed... 
-            NotifyObservers(new TheNameChanged {OldName = oldName, NewName = newName});
-	//why even bother with a comment? The code is expressive enough, right? 
-        }
+        Name = name;
     }
+
+    public string Name { get; private set; }
+        
+    public event DomainEvent NotifyObservers;
+
+    public void ChangeName(string newName)
+    {
+        var oldName = Name;
+        Name = newName;
+
+        //here, we're going to notify the users that the name changed... 
+        NotifyObservers(new TheNameChanged {OldName = oldName, NewName = newName});
+        //why even bother with a comment? The code is expressive enough, right?     
+    }
+}
 ```
 
 On the other side of the equation, we have an event dispatcher that is responsible for finding any matching event handlers and “dispatching” them. Here's an example of an event handler that matches our “TheNameChanged” event:
 
-    public class LogThatNameChanged : IDomainEventHandler<TheNameChanged>
+```csharp
+public class LogThatNameChanged : IDomainEventHandler<TheNameChanged>
+{
+    public void Handle(TheNameChanged @event)
     {
-        public void Handle(TheNameChanged @event)
-        {
-            Console.WriteLine(string.Format("## (LogThatNameChanged) -- The name '{0}' changed to '{1}'.", @event.OldName, @event.NewName));
-        }
+        Console.WriteLine(string.Format("## (LogThatNameChanged) -- The name '{0}' changed to '{1}'.", @event.OldName, @event.NewName));    
     }
+}
+```
 
 This event handler accepts our TheNameChanged event and logs it to the console. 
 
@@ -69,47 +73,55 @@ The initializer is responsible for “wiring up” all the domain events in a given 
 Implementation
 We suggest that you ONLY use DomainEvents with actual domain entities. In our team's typical architecture, domain entities are always retrieved by some sort of domain-level “service”. Take an “IAccountFetcher” like this for example:
 
-	public interface IAccountFetcher {
-		Account FetchById(long id);
-	}
+```csharp
+public interface IAccountFetcher {
+    Account FetchById(long id);
+}
+```
 
 Assuming we always fetch accounts using this fetcher service, then implementing the DomainEvents infrastructure is fairly simple. You would inject the initializer in your service and initialize any entities that it returns. Like this:
 
-	public class InitializedAccountFetcher : IAccountFetcher {
-	
-		IDomainEventInitializer _initializer;
-		IRepository _repository;
+```csharp
+public class InitializedAccountFetcher : IAccountFetcher {
 
-		public InitializedAccountFetcher(IDomainEventInitializer initializer, IRepository repository) {
-			 _initializer =  initializer;
-			_repository = repository;
-		}	
+    IDomainEventInitializer _initializer;
+    IRepository _repository;
 
-		public Account FetchById(long id) {
-			var account = _repository.Get(id);
-			return _initializer.Initialize(account);
-		}
-	}
+    public InitializedAccountFetcher(IDomainEventInitializer initializer, IRepository repository) {
+        _initializer =  initializer;
+        _repository = repository;
+    }	
+
+    public Account FetchById(long id) {
+        var account = _repository.Get(id);
+        return _initializer.Initialize(account);
+    }
+}
+```
 
 You also need to be sure to register the initializer and dispatcher in your IOC container. If you're using structureMap, here's a suggested configuration (using a registry):
 
-    public class StandardDomainEventsConfiguration : Registry
+```csharp
+public class StandardDomainEventsConfiguration : Registry
+{
+    public StandardDomainEventsConfiguration()
     {
-        public StandardDomainEventsConfiguration()
-        {
-            For<IDomainEventInitializer>().Use<DomainEventInitializer>();
-            For<IDomainEventDispatcher>().Use<StructureMapDomainEventDispatcher>();
-        }
+        For<IDomainEventInitializer>().Use<DomainEventInitializer>();
+    For<IDomainEventDispatcher>().Use<StructureMapDomainEventDispatcher>();
     }
+}
+```
 
 All that's left is to register your handlers. If you're planning on using the “StructureMapDomainEventDispatcher”, you can do something like this in your app's bootstrapper (including adding the above registry):
 
-	var container = new Container();
-            container.Configure(x =>
-                {
-                    x.AddRegistry<StandardDomainEventsConfiguration>();
-                    x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
-                });
+```csharp
+var container = new Container();
+container.Configure(x =>
+{
+    x.AddRegistry<StandardDomainEventsConfiguration>();
+    x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
+});
+```
 
 Summary
 -------
