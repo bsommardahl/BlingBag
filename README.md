@@ -25,8 +25,7 @@ Now, to use the new DomainEvent field on your entity, you could do something lik
 ```csharp
 public class Account
 {
-    public Account(string name)
-    {
+    public Account(string name) {
         Name = name;
     }
 
@@ -34,8 +33,7 @@ public class Account
         
     public event DomainEvent NotifyObservers;
 
-    public void ChangeName(string newName)
-    {
+    public void ChangeName(string newName) {
         var oldName = Name;
         Name = newName;
 
@@ -51,8 +49,7 @@ On the other side of the equation, we have an event dispatcher that is responsib
 ```csharp
 public class LogThatNameChanged : IDomainEventHandler<TheNameChanged>
 {
-    public void Handle(TheNameChanged @event)
-    {
+    public void Handle(TheNameChanged @event) {
         Console.WriteLine(string.Format("## (LogThatNameChanged) -- The name '{0}' changed to '{1}'.", @event.OldName, @event.NewName));    
     }
 }
@@ -104,10 +101,9 @@ You also need to be sure to register the initializer and dispatcher in your IOC 
 ```csharp
 public class StandardDomainEventsConfiguration : Registry
 {
-    public StandardDomainEventsConfiguration()
-    {
+    public StandardDomainEventsConfiguration() {
         For<IDomainEventInitializer>().Use<DomainEventInitializer>();
-    For<IDomainEventDispatcher>().Use<StructureMapDomainEventDispatcher>();
+        For<IDomainEventDispatcher>().Use<StructureMapDomainEventDispatcher>();
     }
 }
 ```
@@ -116,8 +112,7 @@ All that's left is to register your handlers. If you're planning on using the “S
 
 ```csharp
 var container = new Container();
-container.Configure(x =>
-{
+container.Configure(x => {
     x.AddRegistry<StandardDomainEventsConfiguration>();
     x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
 });
