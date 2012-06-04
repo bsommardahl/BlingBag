@@ -1,10 +1,15 @@
+DomainEvents
+============
+
 Installation:
+-------------
 nuget> install-package DomainEvents
 
 License:
-
+--------
 
 Use:
+----
 To use DomainEvents in your domain entities, just add an event field to your domain entity class like this:
 
 	public class Account {
@@ -15,6 +20,7 @@ We called the event “NotifyObservers” simply because that expresses what is happ
 
 Now, to use the new DomainEvent field on your entity, you could do something like this:
 
+```csharp
     public class Account
     {
         public Account(string name)
@@ -36,6 +42,7 @@ Now, to use the new DomainEvent field on your entity, you could do something lik
 	//why even bother with a comment? The code is expressive enough, right? 
         }
     }
+```
 
 On the other side of the equation, we have an event dispatcher that is responsible for finding any matching event handlers and “dispatching” them. Here's an example of an event handler that matches our “TheNameChanged” event:
 
@@ -52,9 +59,11 @@ This event handler accepts our TheNameChanged event and logs it to the console.
 There are two main pieces of infrastructure that glue everything together. They are 1) The Initializer, and 2) The Dispatcher.
 
 The Dispatcher 
+--------------
 The Dispatcher is responsible for searching for possible event handler matches and executing them. 
 
 The Initializer
+---------------
 The initializer is responsible for “wiring up” all the domain events in a given entity to the dispatcher. The current implementation searches a provided entity, drilling into child objects and collections, looking for domain event fields. When it finds a domain event field, it subscribes to it using the dispatcher as an “event handler” (of course, the dispatcher represents any number of actual event handlers). From there, the dispatcher decides how (and with which handler) to handle the event.
 
 Implementation
@@ -102,6 +111,8 @@ All that's left is to register your handlers. If you're planning on using the “S
                     x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
                 });
 
+Summary
+-------
 In summary, to implement DomainEvents, you must:
 
 1) Register an implementation of IDomainEventInitializer in your IOC container.
@@ -111,4 +122,6 @@ In summary, to implement DomainEvents, you must:
 5) Add just one DomainEvent event field to each domain entity with a name like “NotifyObservers”.
 6) Start raising DomainEvents in your behavior-rich domain entities.
 
+Sample Code
+-----------
 For some extra explanation, check out the DomainEvents.SampleConsoleApp in the source code.
