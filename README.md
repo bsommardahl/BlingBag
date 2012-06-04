@@ -127,12 +127,12 @@ Summary
 -------
 In summary, to implement DomainEvents, you must:
 
-1) Register an implementation of IDomainEventInitializer in your IOC container.
-2) Register an implementation of IDomainEventDispatcher in your IOC container.
-3) Register all implementations of IDomainEventHandler<> in your IOC container.
-4) Always “initialize” your domain entities using an injected IDomainEventInitializer.
-5) Add just one DomainEvent event field to each domain entity with a name like “NotifyObservers”.
-6) Start raising DomainEvents in your behavior-rich domain entities.
+1. Register an implementation of IDomainEventInitializer in your IOC container.
+2. Register an implementation of IDomainEventDispatcher in your IOC container.
+3. Register all implementations of IDomainEventHandler<> in your IOC container.
+4. Always “initialize” your domain entities using an injected IDomainEventInitializer.
+5. Add just one DomainEvent event field to each domain entity with a name like “NotifyObservers”.
+6. Start raising DomainEvents in your behavior-rich domain entities.
 
 Sample Code
 -----------
