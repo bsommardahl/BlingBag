@@ -1,5 +1,6 @@
 ﻿using System;
-using DomainEvents.StructureMap;
+using DomainEvents.SampleConsoleApp.FakeDomainLayer;
+using DomainEvents.SampleConsoleApp.Infrastructure;
 using StructureMap;
 
 namespace DomainEvents.SampleConsoleApp
@@ -8,22 +9,15 @@ namespace DomainEvents.SampleConsoleApp
     {
         static void Main(string[] args)
         {
-            //bootstrapper
+            //bootstrap the application
             var container = new Container();
-            container.Configure(x =>
-                {                    
-                    x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
-                });
+            new Bootstrapper(container).Run();
 
-            DomainEventHandlers.Resolve = x => container.GetInstance(x);            
-            DomainEventHandlers.Register<TheNameChanged, LogThatNameChanged>();
+            //fetch an initialized domain entity
+            var accountFetcher = container.GetInstance<IAccountFetcher>();
+            var account = accountFetcher.FetchById(1);
 
-            var dispatcher = new DefaultDomainEventDispatcher();
-            var initializer = new DomainEventInitializer(dispatcher);
-
-            var account = new Account("Bob");
-            initializer.Initialize(account);
-
+            //show how a behavior-rich domain entity can do some cool stuff
             Console.WriteLine("The account name is 'Bob'.");
             Console.WriteLine("");
 
@@ -38,7 +32,7 @@ namespace DomainEvents.SampleConsoleApp
 
             Console.WriteLine("");
             Console.WriteLine(
-                "There. The name has been changed. There should have been an event thrown that logged the change to the screen.");
+                "There. The name has been changed. There should have been some domain events handled as a result.");
 
             Console.ReadKey();
 

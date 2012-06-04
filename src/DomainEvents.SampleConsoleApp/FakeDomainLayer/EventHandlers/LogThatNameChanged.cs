@@ -1,6 +1,7 @@
 using System;
+using DomainEvents.SampleConsoleApp.FakeDomainLayer.Events;
 
-namespace DomainEvents.SampleConsoleApp
+namespace DomainEvents.SampleConsoleApp.FakeDomainLayer.EventHandlers
 {
     public class LogThatNameChanged : IDomainEventHandler<TheNameChanged>
     {

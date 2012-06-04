@@ -47,11 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="LogThatNameChanged.cs" />
+    <Compile Include="FakeDomainLayer\Entities\Account.cs" />
+    <Compile Include="FakeDomainLayer\EventHandlers\EmailTheAccountHolderAfterNameChanged.cs" />
+    <Compile Include="FakeDomainLayer\EventHandlers\UpdateAccountAfterNameChange.cs" />
+    <Compile Include="FakeDomainLayer\FakeEmailClient.cs" />
+    <Compile Include="FakeDomainLayer\IAccountFetcher.cs" />
+    <Compile Include="FakeDomainLayer\IEmailClient.cs" />
+    <Compile Include="Infrastructure\Bootstrapper.cs" />
+    <Compile Include="FakeDomainLayer\InitializedAccountFetcher.cs" />
+    <Compile Include="FakeDomainLayer\IRepository.cs" />
+    <Compile Include="FakeDomainLayer\EventHandlers\LogThatNameChanged.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TheNameChanged.cs" />
+    <Compile Include="Infrastructure\StandardDomainEventsConfiguration.cs" />
+    <Compile Include="FakeDataLayer\StubRepository.cs" />
+    <Compile Include="FakeDomainLayer\Events\TheNameChanged.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainEvents.Specs\DomainEvents.Specs.csproj">
@@ -71,6 +81,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,7 +17,7 @@ namespace DomainEvents
 
         #region IDomainEventInitializer Members
 
-        public void Initialize<TClass>(TClass obj) where TClass : class
+        public TClass Initialize<TClass>(TClass obj) where TClass : class
         {
             if (obj == null)
             {
@@ -27,6 +27,7 @@ namespace DomainEvents
             var seen = new HashSet<object>();
             var eventHandler = new DomainEvent(@event => _dispatcher.Dispatch(@event));
             InitializeObject(obj, seen, eventHandler);
+            return obj;
         }
 
         #endregion
