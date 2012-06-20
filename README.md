@@ -74,6 +74,7 @@ The Initializer
 The initializer is responsible for “wiring up” all the domain events in a given entity to the dispatcher. The current implementation searches a provided entity, drilling into child objects and collections, looking for domain event fields. When it finds a domain event field, it subscribes to it using the dispatcher as an “event handler” (of course, the dispatcher represents any number of actual event handlers). From there, the dispatcher decides how (and with which handler) to handle the event.
 
 Implementation
+--------------
 We suggest that you ONLY use DomainEvents with actual domain entities. In our team's typical architecture, domain entities are always retrieved by some sort of domain-level “service”. Take an “IAccountFetcher” like this for example:
 
 ```csharp
