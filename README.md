@@ -1,141 +1,78 @@
 DomainEvents
 ============
 
-Installation:
--------------
+### The Problem:
+As an excellent software developer, you want to be sure that your code is maintainable, testable, expressive, and beautiful. But sometimes those desires seem to conflict with one another. For instance, an expressive domain should contain entities that, not only include well-named properties, but also the behavior of the business's domain. But, if you include behavior in your domain entities, you run the risk of harming the application's maintainability by having classes with more than one "reason to change" or "responsibility" (see Single Responsibility Principle). 
 
-http://nuget.org/packages/DomainEvents
-
-```
-install-package DomainEvents
-```
-
-License:
---------
-Microsoft Public License (MS-PL) - http://www.opensource.org/licenses/MS-PL
-
-Use:
-----
-To use DomainEvents in your domain entities, just add an event field to your domain entity class like this:
-
-```csharp
-public class Account {
-    public event DomainEvent NotifyObservers;
-}
-````
-
-We called the event “NotifyObservers” simply because that expresses what is happening. You can call the event field whatever you'd like. But, we recommend that you use a word or phrase that expresses a general notification of the subscribers or observers of the domain entity... not the specific behavior (i.e. “NotifyThatNameChanged” is not a good event field name since it's specific to a type of behavior. What happens if your domain entity has other types of behavior?)
-
-Now, to use the new DomainEvent field on your entity, you could do something like this:
+### The Solution:
+Well, the solution really has two parts: 1) Double-Dispatch and 2) Domain Events. Since this wiki is all about Domain Events, I'll let you read about Double-Dispatch on your own and stick to the subject at hand. So, consider the following POCO class:
 
 ```csharp
 public class Account
 {
-    public Account(string name) {
-        Name = name;
-    }
+    public string Name { get; set; }
+    public long Id { get; set; }
+    public string EmailAddress { get; set; }
+}
+``` 
 
-    public string Name { get; private set; }
-        
+The above POCO is how all of my domain entities used to look. It's clean, but boring... this class does absolutely nothing. Before I met Domain Events, I would have created any number of domain "services" that performed actions on this Account class. The problem with this is that, in order to read the code and decypher what the Account does, you have to go service fishing and search for all the services that touch Account. It's a bit of a shame that we have such a clean code base, but one that expresses very little of the actual domain.
+
+Now, let's add some behavior. Our imaginary business has passed down a new requirement from on high: 
+"As an account, I can change my name."
+
+So, consider the same POCO class with a bit of behavior:
+
+```csharp
+public class Account
+{
+    public string Name { get; set; }
+    public long Id { get; set; }
+    public string EmailAddress { get; set; }
+
+    public void ChangeName(string newName)
+    {
+        Name = newName;
+    }
+}
+``` 
+
+This is great. We're starting to make our Account entity a little more interesting. But, we have done very little and are pretty restricted to what we can actually do. But we still have three more pieces of the requirement to implement (found in a pencil-written footnote):
+
+When account name changes...
+- account should be saved to the database.
+- should email the account owner notifying of the change
+- should log the change
+
+How can we do all that from inside a POCO domain entity? Well, the answer is that you can't (or shouldn't). BUT, what you CAN do is send out a signal to the rest of the domain that the name has changed and allow the domain to respond to the signal.
+
+So, consider the same POCO, now equipped with DomainEvents:
+
+```csharp
+public class Account
+{
+    public string Name { get; set; }
+    public long Id { get; set; }
+    public string EmailAddress { get; set; }
+
     public event DomainEvent NotifyObservers;
 
-    public void ChangeName(string newName) {
+    public void ChangeName(string newName)
+    {
         var oldName = Name;
         Name = newName;
-
-        //here, we're going to notify the users that the name changed... 
-        NotifyObservers(new TheNameChanged {OldName = oldName, NewName = newName});
-        //why even bother with a comment? The code is expressive enough, right?     
+        NotifyObservers(new TheNameChanged(this, oldName, newName));
     }
 }
-```
+``` 
 
-On the other side of the equation, we have an event dispatcher that is responsible for finding any matching event handlers and “dispatching” them. Here's an example of an event handler that matches our “TheNameChanged” event:
+## Behavior-Rich Domain Model - BAM!
+That's more like it! Now, our domain entity has behavior that expresses the requirements of the business. At this point, any number of event handlers (observers) can respond to the TheNameChanged "event". To fulfill our client's requirements, here are some possible event handlers:
 
-```csharp
-public class LogThatNameChanged : IDomainEventHandler<TheNameChanged>
-{
-    public void Handle(TheNameChanged @event) {
-        Console.WriteLine(string.Format("## (LogThatNameChanged) -- The name '{0}' changed to '{1}'.", @event.OldName, @event.NewName));    
-    }
-}
-```
+* UpdateTheAccountInTheDatabaseAfterNameChange
+* EmailAccountOwnerAfterNameChange
+* LogThatAccountNameWasChanged
 
-This event handler accepts our TheNameChanged event and logs it to the console. 
+For more information on how to install, implement or use DomainEvents, check out the rest of this wiki.
 
-There are two main pieces of infrastructure that glue everything together. They are 1) The Initializer, and 2) The Dispatcher.
-
-The Dispatcher 
---------------
-The Dispatcher is responsible for searching for possible event handler matches and executing them. 
-
-The Initializer
----------------
-The initializer is responsible for “wiring up” all the domain events in a given entity to the dispatcher. The current implementation searches a provided entity, drilling into child objects and collections, looking for domain event fields. When it finds a domain event field, it subscribes to it using the dispatcher as an “event handler” (of course, the dispatcher represents any number of actual event handlers). From there, the dispatcher decides how (and with which handler) to handle the event.
-
-Implementation
---------------
-We suggest that you ONLY use DomainEvents with actual domain entities. In our team's typical architecture, domain entities are always retrieved by some sort of domain-level “service”. Take an “IAccountFetcher” like this for example:
-
-```csharp
-public interface IAccountFetcher {
-    Account FetchById(long id);
-}
-```
-
-Assuming we always fetch accounts using this fetcher service, then implementing the DomainEvents infrastructure is fairly simple. You would inject the initializer in your service and initialize any entities that it returns. Like this:
-
-```csharp
-public class InitializedAccountFetcher : IAccountFetcher {
-
-    IDomainEventInitializer _initializer;
-    IRepository _repository;
-
-    public InitializedAccountFetcher(IDomainEventInitializer initializer, IRepository repository) {
-        _initializer =  initializer;
-        _repository = repository;
-    }	
-
-    public Account FetchById(long id) {
-        var account = _repository.Get(id);
-        return _initializer.Initialize(account);
-    }
-}
-```
-
-You also need to be sure to register the initializer and dispatcher in your IOC container. If you're using structureMap, here's a suggested configuration (using a registry):
-
-```csharp
-public class StandardDomainEventsConfiguration : Registry
-{
-    public StandardDomainEventsConfiguration() {
-        For<IDomainEventInitializer>().Use<DomainEventInitializer>();
-        For<IDomainEventDispatcher>().Use<StructureMapDomainEventDispatcher>();
-    }
-}
-```
-
-All that's left is to register your handlers. If you're planning on using the “StructureMapDomainEventDispatcher”, you can do something like this in your app's bootstrapper (including adding the above registry):
-
-```csharp
-var container = new Container();
-container.Configure(x => {
-    x.AddRegistry<StandardDomainEventsConfiguration>();
-    x.For<IDomainEventHandler<TheNameChanged>>().Use<LogThatNameChanged>();
-});
-```
-
-Summary
--------
-In summary, to implement DomainEvents, you must:
-
-1. Register an implementation of IDomainEventInitializer in your IOC container.
-2. Register an implementation of IDomainEventDispatcher in your IOC container.
-3. Register all implementations of IDomainEventHandler<> in your IOC container.
-4. Always “initialize” your domain entities using an injected IDomainEventInitializer.
-5. Add just one DomainEvent event field to each domain entity with a name like “NotifyObservers”.
-6. Start raising DomainEvents in your behavior-rich domain entities.
-
-Sample Code
------------
-For some extra explanation, check out the DomainEvents.SampleConsoleApp in the source code.
+For sample code, check out the [sample app in the source code](https://github.com/bsommardahl/DomainEvents/tree/master/src/DomainEvents.SampleConsoleApp).
