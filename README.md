@@ -73,6 +73,6 @@ That's more like it! Now, our domain entity has behavior that expresses the requ
 * EmailAccountOwnerAfterNameChange
 * LogThatAccountNameWasChanged
 
-For more information on how to install, implement or use DomainEvents, check out the rest of this wiki.
+For more information on how to install, implement or use DomainEvents, [check out the wiki](/wiki/home).
 
 For sample code, check out the [sample app in the source code](https://github.com/bsommardahl/DomainEvents/tree/master/src/DomainEvents.SampleConsoleApp).
