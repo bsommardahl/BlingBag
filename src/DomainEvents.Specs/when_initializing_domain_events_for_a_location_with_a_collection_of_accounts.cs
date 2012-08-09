@@ -44,4 +44,25 @@ namespace DomainEvents.Specs
             _testDomainEventDispatcher.WithEventsDispatched<NameChanged>()
                 .ShouldContain(x => x.NewName == "new name #2");
     }
+
+    public class OrgUnit
+    {
+        public int Id { get; set; }
+
+        public OrgUnit Parent { get; set; }
+
+        List<OrgUnit> _children;
+        public List<OrgUnit> Children
+        {
+            get { return _children ?? (_children = new List<OrgUnit>()); }
+            set { _children = value; }
+        }
+
+        public event DomainEvent Notify;
+
+        public void Go()
+        {
+            Notify(this);
+        }
+    }
 }

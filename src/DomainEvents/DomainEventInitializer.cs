@@ -68,6 +68,8 @@ namespace DomainEvents
 
             foreach (var item in collection)
             {
+                if (seen.Contains(item)) return;
+
                 InitializeObject(item, seen, eventHandler);
             }
         }

@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>DomainEvents</id>
-    <version>1.0.2.3</version>
-    <title>DomainEvents</title>
-    <authors>sommardahl</authors>
-    <owners>sommardahl</owners>
-    <licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
-    <projectUrl>https://github.com/bsommardahl/DomainEvents</projectUrl>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>DomainEvents is a library that helps implement domain events in a behavior-rich domain model.</description>
-    <releaseNotes>Added collection support to domain event initializer.</releaseNotes>
-    <copyright>Copyright 2012 Acklen Avenue, LLC</copyright>
-    <tags>DDD architecture</tags>
+    <description>$description$</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Tag1 Tag2</tags>
   </metadata>
 </package>
