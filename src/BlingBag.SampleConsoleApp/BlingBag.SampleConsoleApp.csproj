@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8F0C85B3-A583-4851-AE74-C84EA7B22979}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlingBag.SampleConsoleApp</RootNamespace>
+    <AssemblyName>BlingBag.SampleConsoleApp</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="StructureMap">
+      <HintPath>..\..\lib\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FakeDomainLayer\Entities\Account.cs" />
+    <Compile Include="FakeDomainLayer\EventHandlers\EmailTheAccountHolderAfterNameChanged.cs" />
+    <Compile Include="FakeDomainLayer\EventHandlers\UpdateAccountAfterNameChange.cs" />
+    <Compile Include="FakeDomainLayer\FakeEmailClient.cs" />
+    <Compile Include="FakeDomainLayer\IAccountFetcher.cs" />
+    <Compile Include="FakeDomainLayer\IEmailClient.cs" />
+    <Compile Include="Infrastructure\Bootstrapper.cs" />
+    <Compile Include="FakeDomainLayer\InitializedAccountFetcher.cs" />
+    <Compile Include="FakeDomainLayer\IRepository.cs" />
+    <Compile Include="FakeDomainLayer\EventHandlers\LogThatNameChanged.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\StandardDomainEventsConfiguration.cs" />
+    <Compile Include="FakeDataLayer\StubRepository.cs" />
+    <Compile Include="FakeDomainLayer\Events\TheNameChanged.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlingBag.StructureMap\BlingBag.StructureMap.csproj">
+      <Project>{C7DC7F8A-1A48-41E3-8084-549AEF5AE244}</Project>
+      <Name>BlingBag.StructureMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainEvents.Specs\DomainEvents.Specs.csproj">
+      <Project>{11813EB6-C1E1-4475-8D72-E82305625703}</Project>
+      <Name>DomainEvents.Specs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlingBag\BlingBag.csproj">
+      <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
+      <Name>DomainEvents</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

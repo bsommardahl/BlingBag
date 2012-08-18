@@ -4,7 +4,7 @@ MSPEC_PATH = "lib/Machine.Specifications.0.5.6.0/tools/mspec-clr4.exe"
 BUILD_PATH = File.expand_path('build')
 DEPLOY_PATH = File.expand_path('deploy')
 REPORTS_PATH = File.expand_path('testresults')
-SOLUTION = "src/DomainEvents.sln"
+SOLUTION = "src/BlingBag.sln"
 TRXFILE = File.join(REPORTS_PATH, SOLUTION + '.trx')
 CONFIG = "Debug"
 
