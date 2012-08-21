@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blingbag by bsommardahl</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Blingbag</h1>
+        <p>Behavior-Rich Domain Models... 'cause every domain gotta bling!</p>
+
+        <p class="view"><a href="https://github.com/bsommardahl/BlingBag">View the Project on GitHub <small>bsommardahl/BlingBag</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/bsommardahl/BlingBag/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/bsommardahl/BlingBag/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/bsommardahl/BlingBag">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>BlingBag</h1>
+
+<p>Name borrowed from </p>
+
+<h3>The Problem:</h3>
+
+<p>As an excellent software developer, you want to be sure that your code is maintainable, testable, expressive, and beautiful. But sometimes those desires seem to conflict with one another. For instance, an expressive domain should contain entities that, not only include well-named properties, but also the behavior of the business's domain. But, if you include behavior in your domain entities, you run the risk of harming the application's maintainability by having classes with more than one "reason to change" or "responsibility" (see Single Responsibility Principle). </p>
+
+<h3>The Solution:</h3>
+
+<p>Well, the solution really has two parts: 1) Double-Dispatch and 2) Domain Events. Since this wiki is all about domain events with BlingBag, I'll let you read about Double-Dispatch on your own and stick to the subject at hand. So, consider the following POCO class:</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">Account</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Name</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">long</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">EmailAddress</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The above POCO is how all of my domain entities used to look. It's clean, but boring... this class does absolutely nothing. Before I met domain events, I would have created any number of domain "services" that performed actions on this Account class. The problem with this is that, in order to read the code and decypher what the Account does, you have to go service fishing and search for all the services that touch Account. It's a bit of a shame that we have such a clean code base, but one that expresses very little of the actual domain.</p>
+
+<p>Now, let's add some behavior. Our imaginary business has passed down a new requirement from on high: 
+"As an account, I can change my name."</p>
+
+<p>So, consider the same POCO class with a bit of behavior:</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">Account</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Name</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">long</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">EmailAddress</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">ChangeName</span><span class="p">(</span><span class="kt">string</span> <span class="n">newName</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Name</span> <span class="p">=</span> <span class="n">newName</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>This is great. We're starting to make our Account entity a little more interesting. But, we have done very little and are pretty restricted to what we can actually do. But we still have three more pieces of the requirement to implement (found in a pencil-written footnote):</p>
+
+<p>When account name changes...</p>
+
+<ul>
+<li>account should be saved to the database.</li>
+<li>should email the account owner notifying of the change</li>
+<li>should log the change</li>
+</ul><p>How can we do all that from inside a POCO domain entity? Well, the answer is that you can't (or shouldn't). BUT, what you CAN do is send out a signal to the rest of the domain that the name has changed and allow the domain to respond to the signal.</p>
+
+<p>So, consider the same POCO, now equipped with BlingBag:</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">Account</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Name</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">long</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">EmailAddress</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">event</span> <span class="n">Blinger</span> <span class="n">NotifyObservers</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">ChangeName</span><span class="p">(</span><span class="kt">string</span> <span class="n">newName</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">oldName</span> <span class="p">=</span> <span class="n">Name</span><span class="p">;</span>
+        <span class="n">Name</span> <span class="p">=</span> <span class="n">newName</span><span class="p">;</span>
+        <span class="n">NotifyObservers</span><span class="p">(</span><span class="k">new</span> <span class="n">TheNameChanged</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">oldName</span><span class="p">,</span> <span class="n">newName</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>Behavior-Rich Domain Model - Blingin!</h2>
+
+<p>That's more like it! Now, our domain entity has behavior that expresses the requirements of the business. At this point, any number of event handlers (observers) can respond to the TheNameChanged "event". To fulfill our client's requirements, here are some possible event handlers:</p>
+
+<ul>
+<li>UpdateTheAccountInTheDatabaseAfterNameChange</li>
+<li>EmailAccountOwnerAfterNameChange</li>
+<li>LogThatAccountNameWasChanged</li>
+</ul><p>For more information on how to install, implement or use BlingBag, <a href="BlingBag/wiki/home">check out the wiki</a>.</p>
+
+<p>For sample code, check out the <a href="https://github.com/bsommardahl/BlingBag/tree/master/src/BlingBag.SampleConsoleApp">sample app in the source code</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/bsommardahl">bsommardahl</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
