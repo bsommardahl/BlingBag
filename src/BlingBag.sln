@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlingBag.StructureMap.Specs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlingBag.SampleConsoleApp", "BlingBag.SampleConsoleApp\BlingBag.SampleConsoleApp.csproj", "{8F0C85B3-A583-4851-AE74-C84EA7B22979}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlingBag.NHibernate", "BlingBag.NHibernate\BlingBag.NHibernate.csproj", "{CC9842DA-D188-492A-963E-C69ECD14BD85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{8F0C85B3-A583-4851-AE74-C84EA7B22979}.Release|Mixed Platforms.Build.0 = Release|x86
 		{8F0C85B3-A583-4851-AE74-C84EA7B22979}.Release|x86.ActiveCfg = Release|x86
 		{8F0C85B3-A583-4851-AE74-C84EA7B22979}.Release|x86.Build.0 = Release|x86
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CC9842DA-D188-492A-963E-C69ECD14BD85}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

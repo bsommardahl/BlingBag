@@ -9,10 +9,12 @@ namespace BlingBag
     public class BlingInitializer : IBlingInitializer
     {
         readonly IBlingDispatcher _dispatcher;
+        readonly IEventSetter _eventSetter;
 
-        public BlingInitializer(IBlingDispatcher dispatcher)
+        public BlingInitializer(IBlingDispatcher dispatcher = null, IEventSetter eventSetter = null)
         {
-            _dispatcher = dispatcher;
+            _dispatcher = dispatcher ?? (_dispatcher = new DefaultBlingDispatcher());
+            _eventSetter = eventSetter ?? (_eventSetter = new DefaultEventSetter());
         }
 
         #region IBlingInitializer Members
@@ -34,7 +36,7 @@ namespace BlingBag
 
         void InitializeObject<TClass>(TClass obj, HashSet<object> seen, Blinger eventHandler) where TClass : class
         {
-            Set(obj, eventHandler, seen);
+            _eventSetter.Set(obj, eventHandler, seen);
             Dig(obj, eventHandler, seen);
         }
 
@@ -66,7 +68,7 @@ namespace BlingBag
             var collection = (IEnumerable) prop.GetValue(obj, null);
             if (collection == null) return;
 
-            foreach (var item in collection)
+            foreach (object item in collection)
             {
                 if (seen.Contains(item)) return;
 
@@ -76,36 +78,12 @@ namespace BlingBag
 
         static bool IsCollectionType(Type type)
         {
-            return typeof (IEnumerable).IsAssignableFrom(type);
+            return typeof (IEnumerable).IsAssignableFrom(type) && type != typeof (string);
         }
 
         bool IsClassThatHasDomainEvents(PropertyInfo prop)
         {
             return prop.PropertyType.GetEvents().Any(x => x.EventHandlerType.Name.StartsWith("Blinger"));
-        }
-
-        void Set<TClass>(TClass obj, object @delegate, HashSet<object> seen) where TClass : class
-        {
-            if (obj == null) return;
-
-            if (seen.Contains(obj)) return;
-
-            Func<EventInfo, FieldInfo> getField =
-                ei => obj.GetType().GetField(ei.Name,
-                                             BindingFlags.NonPublic |
-                                             BindingFlags.Instance |
-                                             BindingFlags.GetField);
-
-            IEnumerable<EventInfo> domainEventInfos =
-                obj.GetType().GetEvents().Where(x => x.EventHandlerType.Name.StartsWith("Blinger"));
-            List<FieldInfo> fields = domainEventInfos.Select(getField).ToList();
-            fields.ForEach(x =>
-                {
-                    if (x == null) return;
-                    x.SetValue(obj, @delegate);
-                });
-
-            seen.Add(obj);
         }
     }
 }

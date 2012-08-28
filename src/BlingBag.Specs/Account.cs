@@ -22,5 +22,10 @@ namespace BlingBag.Specs
                 };
             NotifyObservers(nameChanged);
         }
+
+        public void DoSomething()
+        {
+            NotifyObservers("account did something");
+        }
     }
 }

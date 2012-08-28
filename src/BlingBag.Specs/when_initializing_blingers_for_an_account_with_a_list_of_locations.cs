@@ -14,7 +14,7 @@ namespace BlingBag.Specs
         Establish context = () =>
             {
                 _testDispatcher = new TestDispatcher();
-                _initializer = new BlingInitializer(_testDispatcher);
+                _initializer = new BlingInitializer(_testDispatcher, new DefaultEventSetter());
                 var locationInList1 = new Location();
                 var locationInList2 = new Location();
                 _account = new Account

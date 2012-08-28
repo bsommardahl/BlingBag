@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</ProjectGuid>
+    <ProjectGuid>{CC9842DA-D188-492A-963E-C69ECD14BD85}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlingBag</RootNamespace>
-    <AssemblyName>BlingBag</AssemblyName>
+    <RootNamespace>BlingBag.NHibernate</RootNamespace>
+    <AssemblyName>BlingBag.NHibernate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\lib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\lib\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,16 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultBlingDispatcher.cs" />
-    <Compile Include="Blinger.cs" />
-    <Compile Include="BlingHandlers.cs" />
-    <Compile Include="BlingInitializer.cs" />
-    <Compile Include="DefaultEventSetter.cs" />
-    <Compile Include="IBlingDispatcher.cs" />
-    <Compile Include="IBlingHandler.cs" />
-    <Compile Include="IBlingInitializer.cs" />
-    <Compile Include="IEventSetter.cs" />
+    <Compile Include="BlingInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlingBag\BlingBag.csproj">
+      <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
+      <Name>BlingBag</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

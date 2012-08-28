@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("BlingBag.StructureMap.Specs")]
+[assembly: AssemblyTitle("BlingBag")]
 [assembly: AssemblyDescription("BlingBag is a library that helps implement domain events in a behavior-rich domain model.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Acklen Avenue")]
@@ -11,5 +11,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("a892f09f-a8c7-42b5-89a9-77de039dc3ab")]
-[assembly: AssemblyVersion("1.3.0.1")]
-[assembly: AssemblyFileVersion("1.3.0.1")]
+[assembly: AssemblyVersion("1.3.0.2")]
+[assembly: AssemblyFileVersion("1.3.0.2")]

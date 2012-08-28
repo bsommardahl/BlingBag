@@ -35,8 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StructureMap">
-      <HintPath>..\..\lib\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,7 +69,7 @@
       <Project>{C7DC7F8A-1A48-41E3-8084-549AEF5AE244}</Project>
       <Name>BlingBag.StructureMap</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainEvents.Specs\DomainEvents.Specs.csproj">
+    <ProjectReference Include="..\BlingBag.Specs\BlingBag.Specs.csproj">
       <Project>{11813EB6-C1E1-4475-8D72-E82305625703}</Project>
       <Name>DomainEvents.Specs</Name>
     </ProjectReference>

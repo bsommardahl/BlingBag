@@ -58,9 +58,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="TestHandler.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="when_changing_the_account_name.cs" />
     <Compile Include="when_dispatching_an_event_with_a_registered_handler.cs" />
     <Compile Include="when_getting_registered_handlers_for_an_event.cs" />
+    <Compile Include="when_initializing_a_complex_object_with_nulls.cs" />
     <Compile Include="when_initializing_blingers_for_a_location_with_a_collection_of_accounts.cs" />
     <Compile Include="when_initializing_blingers_for_an_account.cs" />
     <Compile Include="when_initializing_blingers_for_an_account_with_a_list_of_locations.cs" />
