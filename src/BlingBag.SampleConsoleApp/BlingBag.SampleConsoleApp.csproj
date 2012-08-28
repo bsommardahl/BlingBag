@@ -69,13 +69,9 @@
       <Project>{C7DC7F8A-1A48-41E3-8084-549AEF5AE244}</Project>
       <Name>BlingBag.StructureMap</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BlingBag.Specs\BlingBag.Specs.csproj">
-      <Project>{11813EB6-C1E1-4475-8D72-E82305625703}</Project>
-      <Name>DomainEvents.Specs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BlingBag\BlingBag.csproj">
       <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
-      <Name>DomainEvents</Name>
+      <Name>BlingBag</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

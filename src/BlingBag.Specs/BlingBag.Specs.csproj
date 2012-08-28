@@ -71,17 +71,17 @@
     <Compile Include="OrgUnit.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BlingBag.Testing\BlingBag.Testing.csproj">
       <Project>{5C2E30BE-687D-4C8F-ADA0-4B07D3DFCE44}</Project>
-      <Name>DomainEvents.Testing</Name>
+      <Name>BlingBag.Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlingBag\BlingBag.csproj">
       <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
-      <Name>DomainEvents</Name>
+      <Name>BlingBag</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

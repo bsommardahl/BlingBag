@@ -48,13 +48,13 @@
     <Compile Include="StructureMapBlingDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlingBag\BlingBag.csproj">
-      <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
-      <Name>DomainEvents</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\BlingBag\BlingBag.csproj">
+      <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
+      <Name>BlingBag</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

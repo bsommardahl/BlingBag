@@ -14,7 +14,7 @@
     <tags>Domain Events, DDD, Architecture</tags>
     <dependencies>
       <dependency id="BlingBag" />
-      <dependency id="StructureMap"/>
+      <dependency id="NHibernate"/>
     </dependencies>  
   </metadata>
 </package>
