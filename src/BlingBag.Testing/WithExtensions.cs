@@ -24,7 +24,7 @@ namespace BlingBag.Testing
                                              BindingFlags.GetField);
 
             IEnumerable<EventInfo> domainEventInfos =
-                obj.GetType().GetEvents().Where(x => x.EventHandlerType.Name.StartsWith("DomainEvent"));
+                obj.GetType().GetEvents().Where(x => x.EventHandlerType == typeof (Blinger));
             List<FieldInfo> fields = domainEventInfos.Select(getField).ToList();
             fields.ForEach(x => x.SetValue(obj, @event));
 
