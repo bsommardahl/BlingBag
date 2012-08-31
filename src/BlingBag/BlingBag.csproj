@@ -40,15 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultBlingConfigurator.cs" />
     <Compile Include="DefaultBlingDispatcher.cs" />
     <Compile Include="Blinger.cs" />
     <Compile Include="BlingHandlers.cs" />
     <Compile Include="BlingInitializer.cs" />
-    <Compile Include="DefaultEventSetter.cs" />
+    <Compile Include="IBlingConfigurator.cs" />
     <Compile Include="IBlingDispatcher.cs" />
     <Compile Include="IBlingHandler.cs" />
     <Compile Include="IBlingInitializer.cs" />
-    <Compile Include="IEventSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

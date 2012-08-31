@@ -18,7 +18,7 @@ namespace BlingBag.StructureMap
 
         public void Dispatch(object @event)
         {
-            foreach (object handler in MatchingBlingHandlers(@event))
+            foreach (var handler in MatchingBlingHandlers(@event))
             {
                 MethodInfo handlerMethod = handler.GetType().GetMethod("Handle");
                 handlerMethod.Invoke(handler, new[] {@event});

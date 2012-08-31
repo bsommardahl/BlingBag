@@ -8,13 +8,11 @@ namespace BlingBag
 {
     public class BlingInitializer : IBlingInitializer
     {
-        readonly IBlingDispatcher _dispatcher;
-        readonly IEventSetter _eventSetter;
+        readonly IBlingConfigurator _blingConfigurator;
 
-        public BlingInitializer(IBlingDispatcher dispatcher = null, IEventSetter eventSetter = null)
+        public BlingInitializer(IBlingConfigurator blingConfigurator)
         {
-            _dispatcher = dispatcher ?? (_dispatcher = new DefaultBlingDispatcher());
-            _eventSetter = eventSetter ?? (_eventSetter = new DefaultEventSetter());
+            _blingConfigurator = blingConfigurator;
         }
 
         #region IBlingInitializer Members
@@ -27,20 +25,51 @@ namespace BlingBag
             }
 
             var seen = new HashSet<object>();
-            var eventHandler = new Blinger(@event => _dispatcher.Dispatch(@event));
-            InitializeObject(obj, seen, eventHandler);
+
+            InitializeObject(obj, seen, _blingConfigurator.HandleEvent);
             return obj;
         }
 
         #endregion
 
-        void InitializeObject<TClass>(TClass obj, HashSet<object> seen, Blinger eventHandler) where TClass : class
+        void InitializeObject<TClass, TEventType>(TClass obj, HashSet<object> seen, TEventType eventHandler) where TClass : class
         {
-            _eventSetter.Set(obj, eventHandler, seen);
+            Set(obj, eventHandler, seen);
             Dig(obj, eventHandler, seen);
         }
 
-        void Dig<TClass>(TClass obj, Blinger eventHandler, HashSet<object> seen) where TClass : class
+        void Set<TClass, TEventType>(TClass obj, TEventType @delegate, HashSet<object> seen) where TClass : class
+        {
+            if (obj == null) return;
+
+            if (seen.Contains(obj)) return;
+
+            const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+            Func<EventInfo, FieldInfo> getField =
+                ei => obj.GetType().GetField(ei.Name, bindingFlags);
+
+            var domainEventInfos =
+                obj.GetType().GetEvents(bindingFlags).Where(_blingConfigurator.EventSelector);
+
+            var fields = domainEventInfos.Select(getField).ToList();
+
+            fields.ForEach(x =>
+            {
+                if (x == null)
+                {
+                    //what does this mean when this happens? Might mean that there was a problem.
+                    //... this is null on proxy objects returned by NHibernate.
+                    return;
+                }
+
+                x.SetValue(obj, @delegate);
+            });
+
+            seen.Add(obj);
+        }
+
+        void Dig<TClass, TEventType>(TClass obj, TEventType eventHandler, HashSet<object> seen) where TClass : class
         {
             if (obj == null) return;
 
@@ -62,13 +91,13 @@ namespace BlingBag
             }
         }
 
-        void InitializeItemsInCollection<TClass>(TClass obj, Blinger eventHandler, HashSet<object> seen,
+        void InitializeItemsInCollection<TClass, TEventType>(TClass obj, TEventType eventHandler, HashSet<object> seen,
                                                  PropertyInfo prop) where TClass : class
         {
             var collection = (IEnumerable) prop.GetValue(obj, null);
             if (collection == null) return;
 
-            foreach (object item in collection)
+            foreach (var item in collection)
             {
                 if (seen.Contains(item)) return;
 
@@ -83,7 +112,7 @@ namespace BlingBag
 
         bool IsClassThatHasDomainEvents(PropertyInfo prop)
         {
-            return prop.PropertyType.GetEvents().Any(x => x.EventHandlerType.Name.StartsWith("Blinger"));
+            return prop.PropertyType.GetEvents().Any(_blingConfigurator.EventSelector);
         }
     }
 }

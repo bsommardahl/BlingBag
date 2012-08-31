@@ -8,6 +8,7 @@ namespace BlingBag.SampleConsoleApp.Infrastructure
         public StandardDomainEventsConfiguration()
         {
             For<IBlingInitializer>().Use<BlingInitializer>();
+            For<IBlingConfigurator>().Use<DefaultBlingConfigurator>();
             For<IBlingDispatcher>().Use<StructureMapBlingDispatcher>();
         }
     }

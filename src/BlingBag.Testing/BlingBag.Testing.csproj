@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="EventNotDispatchedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestDispatcher.cs" />
     <Compile Include="WithExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
