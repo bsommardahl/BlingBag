@@ -1,10 +1,12 @@
-﻿namespace BlingBag.StructureMap.Specs
+﻿using System;
+
+namespace BlingBag.StructureMap.Specs
 {
     public class Location
     {
         public string Address { get; private set; }
 
-        public event Blinger RaiseEvent;
+        public event Action<object> RaiseEvent;
 
         public void ChangeLocation(string address)
         {

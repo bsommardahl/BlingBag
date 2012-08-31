@@ -1,13 +1,14 @@
-﻿using NHibernate;
+﻿using System;
+using NHibernate;
 using NHibernate.Type;
 
 namespace BlingBag.NHibernate
 {
     public class BlingInterceptor : EmptyInterceptor
     {
-        readonly IBlingInitializer _blingInitializer;
+        readonly IBlingInitializer<Action<object>> _blingInitializer;
 
-        public BlingInterceptor(IBlingInitializer blingInitializer)
+        public BlingInterceptor(IBlingInitializer<Action<object>> blingInitializer)
         {
             _blingInitializer = blingInitializer;
         }

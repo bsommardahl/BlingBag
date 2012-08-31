@@ -2,7 +2,8 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("BlingBag.NHibernate")]
-[assembly: AssemblyDescription("BlingBag is a library that helps implement domain events in a behavior-rich domain model.")]
+[assembly:
+    AssemblyDescription("BlingBag is a library that helps implement domain events in a behavior-rich domain model.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Acklen Avenue")]
 [assembly: AssemblyProduct("BlingBag.NHibernate")]
@@ -11,5 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("a892f09f-a8c7-42b5-89a9-77de039dc3ab")]
-[assembly: AssemblyVersion("1.3.0.4")]
-[assembly: AssemblyFileVersion("1.3.0.4")]
+[assembly: AssemblyVersion("1.3.1.0")]
+[assembly: AssemblyFileVersion("1.3.1.0")]

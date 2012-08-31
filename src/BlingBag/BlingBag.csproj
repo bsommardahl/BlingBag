@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="DefaultBlingConfigurator.cs" />
     <Compile Include="DefaultBlingDispatcher.cs" />
-    <Compile Include="Blinger.cs" />
     <Compile Include="BlingHandlers.cs" />
     <Compile Include="BlingInitializer.cs" />
     <Compile Include="IBlingConfigurator.cs" />

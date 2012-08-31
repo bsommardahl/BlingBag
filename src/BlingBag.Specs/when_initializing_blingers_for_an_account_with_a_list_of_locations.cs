@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
-using BlingBag.Testing;
 using Machine.Specifications;
-using Moq;
-using It = Machine.Specifications.It;
 
 namespace BlingBag.Specs
 {
-    public class when_initializing_blingers_for_an_account_with_a_list_of_locations : given_a_bling_initializer_context
+    public class when_initializing_blingers_for_an_account_with_a_list_of_locations :
+        given_a_blinger_initializer_context
     {
         static Account _account;
-        
+
         Establish context = () =>
-            {        
+            {
                 var locationInList1 = new Location();
                 var locationInList2 = new Location();
                 _account = new Account

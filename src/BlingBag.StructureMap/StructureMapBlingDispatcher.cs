@@ -18,12 +18,14 @@ namespace BlingBag.StructureMap
 
         public void Dispatch(object @event)
         {
-            foreach (var handler in MatchingBlingHandlers(@event))
+            foreach (object handler in MatchingBlingHandlers(@event))
             {
                 MethodInfo handlerMethod = handler.GetType().GetMethod("Handle");
                 handlerMethod.Invoke(handler, new[] {@event});
             }
         }
+
+        #endregion
 
         IList MatchingBlingHandlers(object @event)
         {
@@ -32,7 +34,5 @@ namespace BlingBag.StructureMap
             IList domainEventHandlers = _container.GetAllInstances(genericHandlerType);
             return domainEventHandlers;
         }
-
-        #endregion
     }
 }

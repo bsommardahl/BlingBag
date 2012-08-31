@@ -4,9 +4,13 @@
     {
         public object EventHandled;
 
+        #region IBlingHandler<TestClass> Members
+
         public void Handle(TestClass @event)
         {
             EventHandled = @event;
-        }        
+        }
+
+        #endregion
     }
 }

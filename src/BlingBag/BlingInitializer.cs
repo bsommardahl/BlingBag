@@ -6,16 +6,16 @@ using System.Reflection;
 
 namespace BlingBag
 {
-    public class BlingInitializer : IBlingInitializer
+    public class BlingInitializer<TEventType> : IBlingInitializer<TEventType>
     {
-        readonly IBlingConfigurator _blingConfigurator;
+        readonly IBlingConfigurator<TEventType> _blingConfigurator;
 
-        public BlingInitializer(IBlingConfigurator blingConfigurator)
+        public BlingInitializer(IBlingConfigurator<TEventType> blingConfigurator)
         {
             _blingConfigurator = blingConfigurator;
         }
 
-        #region IBlingInitializer Members
+        #region IBlingInitializer<TEventType> Members
 
         public TClass Initialize<TClass>(TClass obj) where TClass : class
         {
@@ -32,13 +32,14 @@ namespace BlingBag
 
         #endregion
 
-        void InitializeObject<TClass, TEventType>(TClass obj, HashSet<object> seen, TEventType eventHandler) where TClass : class
+        void InitializeObject<TClass>(TClass obj, HashSet<object> seen, TEventType eventHandler)
+            where TClass : class
         {
             Set(obj, eventHandler, seen);
             Dig(obj, eventHandler, seen);
         }
 
-        void Set<TClass, TEventType>(TClass obj, TEventType @delegate, HashSet<object> seen) where TClass : class
+        void Set<TClass>(TClass obj, TEventType @delegate, HashSet<object> seen) where TClass : class
         {
             if (obj == null) return;
 
@@ -49,27 +50,28 @@ namespace BlingBag
             Func<EventInfo, FieldInfo> getField =
                 ei => obj.GetType().GetField(ei.Name, bindingFlags);
 
-            var domainEventInfos =
-                obj.GetType().GetEvents(bindingFlags).Where(_blingConfigurator.EventSelector);
+            EventInfo[] events = obj.GetType().GetEvents(bindingFlags);
 
-            var fields = domainEventInfos.Select(getField).ToList();
+            IEnumerable<EventInfo> selectedEvents = events.Where(_blingConfigurator.EventSelector);
+
+            List<FieldInfo> fields = selectedEvents.Select(getField).ToList();
 
             fields.ForEach(x =>
-            {
-                if (x == null)
                 {
-                    //what does this mean when this happens? Might mean that there was a problem.
-                    //... this is null on proxy objects returned by NHibernate.
-                    return;
-                }
+                    if (x == null)
+                    {
+                        //what does this mean when this happens? Might mean that there was a problem.
+                        //... this is null on proxy objects returned by NHibernate.
+                        return;
+                    }
 
-                x.SetValue(obj, @delegate);
-            });
+                    x.SetValue(obj, @delegate);
+                });
 
             seen.Add(obj);
         }
 
-        void Dig<TClass, TEventType>(TClass obj, TEventType eventHandler, HashSet<object> seen) where TClass : class
+        void Dig<TClass>(TClass obj, TEventType eventHandler, HashSet<object> seen) where TClass : class
         {
             if (obj == null) return;
 
@@ -91,13 +93,13 @@ namespace BlingBag
             }
         }
 
-        void InitializeItemsInCollection<TClass, TEventType>(TClass obj, TEventType eventHandler, HashSet<object> seen,
-                                                 PropertyInfo prop) where TClass : class
+        void InitializeItemsInCollection<TClass>(TClass obj, TEventType eventHandler, HashSet<object> seen,
+                                                             PropertyInfo prop) where TClass : class
         {
             var collection = (IEnumerable) prop.GetValue(obj, null);
             if (collection == null) return;
 
-            foreach (var item in collection)
+            foreach (object item in collection)
             {
                 if (seen.Contains(item)) return;
 

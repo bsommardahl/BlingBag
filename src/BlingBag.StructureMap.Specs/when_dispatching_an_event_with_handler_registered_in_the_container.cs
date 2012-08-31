@@ -1,6 +1,5 @@
 ﻿using Machine.Specifications;
 using StructureMap;
-using It = Machine.Specifications.It;
 
 namespace BlingBag.StructureMap.Specs
 {

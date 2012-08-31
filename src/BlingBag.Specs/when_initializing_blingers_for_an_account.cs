@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using BlingBag.Testing;
 using Machine.Specifications;
-using It = Machine.Specifications.It;
 
 namespace BlingBag.Specs
 {
-    public class when_initializing_blingers_for_an_account: given_a_bling_initializer_context
+    public class when_initializing_blingers_for_an_account : given_a_blinger_initializer_context
     {
         static Account _account;
 

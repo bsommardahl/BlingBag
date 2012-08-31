@@ -15,7 +15,7 @@ namespace BlingBag.Specs
                 _event = new LocationChanged("some location");
                 _handler = new Mock<IBlingHandler<LocationChanged>>();
 
-                BlingHandlers.Resolve = typeToResolve => _handler.Object;                
+                BlingHandlers.Resolve = typeToResolve => _handler.Object;
                 BlingHandlers.Register(_event.GetType(), _handler.Object.GetType());
 
                 _blingDispatcher = new DefaultBlingDispatcher();

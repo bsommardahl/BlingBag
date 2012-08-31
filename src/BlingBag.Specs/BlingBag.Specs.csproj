@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="Blinger.cs" />
+    <Compile Include="given_an_initializer_context.cs" />
+    <Compile Include="given_a_blinger_initializer_context.cs" />
     <Compile Include="given_a_bling_initializer_context.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="LocationChanged.cs" />

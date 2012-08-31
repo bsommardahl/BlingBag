@@ -1,10 +1,10 @@
 using System.Linq;
-using BlingBag.Testing;
 using Machine.Specifications;
 
 namespace BlingBag.Specs
 {
-    public class when_initializing_blingers_for_an_object_with_recursive_parent_and_children : given_a_bling_initializer_context
+    public class when_initializing_blingers_for_an_object_with_recursive_parent_and_children :
+        given_an_action_event_initializer_context
     {
         static OrgUnit _root;
         static OrgUnit _parent;
@@ -14,10 +14,10 @@ namespace BlingBag.Specs
         Establish context = () =>
             {
                 _parent = new OrgUnit {Id = 1, Parent = null};
-                _root = new OrgUnit { Id = 2, Parent = _parent, };
+                _root = new OrgUnit {Id = 2, Parent = _parent,};
                 _firstChild = new OrgUnit {Id = 3, Parent = _root};
                 _secondChild = new OrgUnit {Id = 4, Parent = _root};
-                
+
                 _root.Children.Add(_firstChild);
                 _root.Children.Add(_secondChild);
             };

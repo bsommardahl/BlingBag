@@ -2,6 +2,6 @@
 {
     public interface IBlingDispatcher
     {
-        void Dispatch(object @event);        
+        void Dispatch(object @event);
     }
 }

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace BlingBag
 {
-    public class DefaultBlingConfigurator : IBlingConfigurator
+    public class DefaultBlingConfigurator : IBlingConfigurator<Action<object>>
     {
         readonly IBlingDispatcher _blingDispatcher;
 
@@ -12,20 +12,16 @@ namespace BlingBag
             _blingDispatcher = blingDispatcher;
         }
 
-        #region IBlingConfigurator Members
+        #region IBlingConfigurator<Action<object>> Members
 
         public Func<EventInfo, bool> EventSelector
         {
-            get { return x => x.EventHandlerType == typeof (Blinger); }
+            get { return x => x.EventHandlerType == typeof (Action<object>); }
         }
 
-        public object HandleEvent
+        public Action<object> HandleEvent
         {
-            get
-            {
-                Blinger eventHandler = @event => _blingDispatcher.Dispatch(@event);
-                return eventHandler;
-            }
+            get { return @event => _blingDispatcher.Dispatch(@event); }
         }
 
         #endregion

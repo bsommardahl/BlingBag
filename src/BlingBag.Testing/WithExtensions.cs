@@ -7,15 +7,17 @@ namespace BlingBag.Testing
 {
     public static class WithExtensions
     {
+        public static Func<EventInfo, bool> EventSelector = x => true;
+
         public static void With<T>(this T obj, Func<T, bool> isTrue)
         {
-            if(!isTrue(obj))
+            if (!isTrue(obj))
             {
                 throw new Exception("The target object didn't have the expected values.");
             }
         }
 
-        public static T WithObserver<T>(this T obj, Blinger @event)
+        public static T WithObserver<T>(this T obj, object @event)
         {
             Func<EventInfo, FieldInfo> getField =
                 ei => obj.GetType().GetField(ei.Name,
@@ -24,7 +26,7 @@ namespace BlingBag.Testing
                                              BindingFlags.GetField);
 
             IEnumerable<EventInfo> domainEventInfos =
-                obj.GetType().GetEvents().Where(x => x.EventHandlerType == typeof (Blinger));
+                obj.GetType().GetEvents().Where(EventSelector);
             List<FieldInfo> fields = domainEventInfos.Select(getField).ToList();
             fields.ForEach(x => x.SetValue(obj, @event));
 

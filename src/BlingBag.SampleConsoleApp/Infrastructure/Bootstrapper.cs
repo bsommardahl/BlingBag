@@ -12,7 +12,7 @@ namespace BlingBag.SampleConsoleApp.Infrastructure
 
         public Bootstrapper(IContainer container)
         {
-            _container = container;                        
+            _container = container;
         }
 
         public void Run()

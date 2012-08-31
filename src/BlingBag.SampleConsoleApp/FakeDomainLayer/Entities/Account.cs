@@ -1,3 +1,4 @@
+using System;
 using BlingBag.SampleConsoleApp.FakeDomainLayer.Events;
 
 namespace BlingBag.SampleConsoleApp.FakeDomainLayer.Entities
@@ -10,11 +11,11 @@ namespace BlingBag.SampleConsoleApp.FakeDomainLayer.Entities
 
         public string EmailAddress { get; set; }
 
-        public event Blinger NotifyObservers;
+        public event Action<object> NotifyObservers;
 
         public void ChangeName(string newName)
         {
-            var oldName = Name;
+            string oldName = Name;
             Name = newName;
 
             NotifyObservers(new TheNameChanged(this, oldName, newName));

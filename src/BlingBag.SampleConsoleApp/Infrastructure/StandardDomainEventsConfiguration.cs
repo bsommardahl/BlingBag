@@ -1,3 +1,4 @@
+using System;
 using BlingBag.StructureMap;
 using StructureMap.Configuration.DSL;
 
@@ -7,8 +8,8 @@ namespace BlingBag.SampleConsoleApp.Infrastructure
     {
         public StandardDomainEventsConfiguration()
         {
-            For<IBlingInitializer>().Use<BlingInitializer>();
-            For<IBlingConfigurator>().Use<DefaultBlingConfigurator>();
+            For<IBlingInitializer<Action<object>>>().Use<BlingInitializer<Action<object>>>();
+            For<IBlingConfigurator<Action<object>>>().Use<DefaultBlingConfigurator>();
             For<IBlingDispatcher>().Use<StructureMapBlingDispatcher>();
         }
     }

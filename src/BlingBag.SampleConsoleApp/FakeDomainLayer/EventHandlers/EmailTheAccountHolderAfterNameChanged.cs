@@ -11,11 +11,15 @@ namespace BlingBag.SampleConsoleApp.FakeDomainLayer.EventHandlers
             _emailClient = emailClient;
         }
 
+        #region IBlingHandler<TheNameChanged> Members
+
         public void Handle(TheNameChanged @event)
         {
             _emailClient.Send(@event.Account.EmailAddress, "Name Changed",
                               string.Format("Your name has been changed from {0} to {1}.", @event.OldName,
                                             @event.NewName));
         }
+
+        #endregion
     }
 }

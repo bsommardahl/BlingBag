@@ -1,5 +1,6 @@
 ﻿using System;
 using BlingBag.SampleConsoleApp.FakeDomainLayer;
+using BlingBag.SampleConsoleApp.FakeDomainLayer.Entities;
 using BlingBag.SampleConsoleApp.Infrastructure;
 using StructureMap;
 
@@ -15,7 +16,7 @@ namespace BlingBag.SampleConsoleApp
 
             //fetch an initialized domain entity
             var accountFetcher = container.GetInstance<IAccountFetcher>();
-            var account = accountFetcher.FetchById(1);
+            Account account = accountFetcher.FetchById(1);
 
             //show how a behavior-rich domain entity can do some cool stuff
             Console.WriteLine("The account name is 'Bob'.");
@@ -35,7 +36,6 @@ namespace BlingBag.SampleConsoleApp
                 "There. The name has been changed. There should have been some domain events handled as a result.");
 
             Console.ReadKey();
-
         }
     }
 }

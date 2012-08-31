@@ -11,9 +11,13 @@ namespace BlingBag.SampleConsoleApp.FakeDomainLayer.EventHandlers
             _repository = repository;
         }
 
+        #region IBlingHandler<TheNameChanged> Members
+
         public void Handle(TheNameChanged @event)
         {
             _repository.Update(@event.Account);
         }
+
+        #endregion
     }
 }

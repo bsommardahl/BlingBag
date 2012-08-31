@@ -12,7 +12,7 @@ namespace BlingBag
 
         public static void Register<TEvent, THandler>() where THandler : IBlingHandler<TEvent>
         {
-            Handlers.Add(new KeyValuePair<Type, Type>(typeof(TEvent), typeof(THandler)));
+            Handlers.Add(new KeyValuePair<Type, Type>(typeof (TEvent), typeof (THandler)));
         }
 
         public static void Register(Type eventType, Type handlerType)
@@ -23,12 +23,13 @@ namespace BlingBag
         public static List<IBlingHandler<T>> GetFor<T>(T @event)
         {
             //get all handlers that match the actual type of @event
-            
-            var handlersTypes = Handlers
+
+            IEnumerable<Type> handlersTypes = Handlers
                 .Where(x => x.Key.IsInstanceOfType(@event))
                 .Select(x => (x.Value));
 
-            var domainEventHandlers = handlersTypes.Select(x => Resolve(x)).Cast<IBlingHandler<T>>();
+            IEnumerable<IBlingHandler<T>> domainEventHandlers =
+                handlersTypes.Select(x => Resolve(x)).Cast<IBlingHandler<T>>();
 
             return domainEventHandlers.ToList();
         }

@@ -3,10 +3,10 @@ using System.Reflection;
 
 namespace BlingBag
 {
-    public interface IBlingConfigurator
+    public interface IBlingConfigurator<out TEventType>
     {
         Func<EventInfo, bool> EventSelector { get; }
 
-        object HandleEvent { get; }
+        TEventType HandleEvent { get; }
     }
 }

@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
-using BlingBag.Testing;
 using Machine.Specifications;
 
 namespace BlingBag.Specs
 {
-    public class when_initializing_blingers_for_a_location_with_a_collection_of_accounts : given_a_bling_initializer_context
+    public class when_initializing_blingers_for_a_location_with_a_collection_of_accounts :
+        given_a_blinger_initializer_context
     {
         static Location _location;
 

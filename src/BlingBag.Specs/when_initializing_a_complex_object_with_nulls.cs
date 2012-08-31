@@ -1,9 +1,8 @@
-using BlingBag.Testing;
 using Machine.Specifications;
 
 namespace BlingBag.Specs
 {
-    public class when_initializing_a_complex_object_with_nulls : given_a_bling_initializer_context
+    public class when_initializing_a_complex_object_with_nulls : given_a_blinger_initializer_context
     {
         static User _user;
         static Account _account;
@@ -11,7 +10,7 @@ namespace BlingBag.Specs
         Establish context = () =>
             {
                 _account = new Account();
-        
+
                 _user = new User {Account = _account};
             };
 

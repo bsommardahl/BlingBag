@@ -6,7 +6,9 @@ namespace BlingBag.SampleConsoleApp.FakeDataLayer
 {
     public class StubRepository : IRepository
     {
-        public T Get<T>(long id) where T:Account
+        #region IRepository Members
+
+        public T Get<T>(long id) where T : Account
         {
             var account = new Account
                 {
@@ -21,5 +23,7 @@ namespace BlingBag.SampleConsoleApp.FakeDataLayer
         {
             Console.WriteLine("## (StubRepository) -- The account was updated in the repository.");
         }
+
+        #endregion
     }
 }
