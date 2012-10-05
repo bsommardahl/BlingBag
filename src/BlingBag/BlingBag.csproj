@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlingDispatcherBase.cs" />
     <Compile Include="DefaultBlingConfigurator.cs" />
     <Compile Include="DefaultBlingDispatcher.cs" />
     <Compile Include="BlingHandlers.cs" />

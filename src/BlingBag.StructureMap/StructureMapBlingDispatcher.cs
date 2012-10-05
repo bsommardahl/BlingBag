@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Reflection;
 using StructureMap;
 
 namespace BlingBag.StructureMap
 {
-    public class StructureMapBlingDispatcher : IBlingDispatcher
+    public class StructureMapBlingDispatcher : BlingDispatcherBase
     {
         readonly IContainer _container;
 
@@ -14,25 +13,9 @@ namespace BlingBag.StructureMap
             _container = container;
         }
 
-        #region IBlingDispatcher Members
-
-        public void Dispatch(object @event)
+        protected override IEnumerable ResolveAll(Type blingHandlerType)
         {
-            foreach (object handler in MatchingBlingHandlers(@event))
-            {
-                MethodInfo handlerMethod = handler.GetType().GetMethod("Handle");
-                handlerMethod.Invoke(handler, new[] {@event});
-            }
-        }
-
-        #endregion
-
-        IList MatchingBlingHandlers(object @event)
-        {
-            Type handlerType = typeof (IBlingHandler<>);
-            Type genericHandlerType = handlerType.MakeGenericType(@event.GetType());
-            IList domainEventHandlers = _container.GetAllInstances(genericHandlerType);
-            return domainEventHandlers;
+            return _container.GetAllInstances(blingHandlerType);
         }
     }
 }

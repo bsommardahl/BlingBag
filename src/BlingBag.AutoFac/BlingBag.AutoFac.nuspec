@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>Acklen Avenue</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <projectUrl>http://blingbag.org</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2012 Acklen Avenue, LLC</copyright>
+    <tags>Domain Events, DDD, Architecture</tags>
+    <dependencies>
+      <dependency id="BlingBag" />
+      <dependency id="AutoFac"/>
+    </dependencies>  
+  </metadata>
+</package>
