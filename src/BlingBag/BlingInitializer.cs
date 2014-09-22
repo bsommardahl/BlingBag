@@ -50,7 +50,7 @@ namespace BlingBag
             Func<EventInfo, FieldInfo> getField =
                 ei => obj.GetType().GetField(ei.Name, bindingFlags);
 
-            EventInfo[] events = obj.GetType().GetEvents(bindingFlags);
+            EventInfo[] events = _blingConfigurator.GetHandler(obj).GetType().GetEvents(bindingFlags);
 
             IEnumerable<EventInfo> selectedEvents = events.Where(_blingConfigurator.EventSelector);
 

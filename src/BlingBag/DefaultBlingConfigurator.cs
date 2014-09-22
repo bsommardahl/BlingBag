@@ -24,6 +24,11 @@ namespace BlingBag
             get { return @event => _blingDispatcher.Dispatch(@event); }
         }
 
+        public object GetHandler(object obj)
+        {
+            return obj;
+        }
+
         #endregion
     }
 }
