@@ -8,5 +8,6 @@ namespace BlingBag
         Func<EventInfo, bool> EventSelector { get; }
         TEventType HandleEvent { get; }
         object GetHandler(object obj);
+        
     }
 }

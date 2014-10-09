@@ -27,8 +27,7 @@ namespace BlingBag
         public object GetHandler(object obj)
         {
             return obj;
-        }
-
+        }        
         #endregion
     }
 }

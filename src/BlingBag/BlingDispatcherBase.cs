@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Reflection;
 
 namespace BlingBag
 {
@@ -11,10 +10,19 @@ namespace BlingBag
         public void Dispatch(object @event)
         {
             IEnumerable matchingBlingHandlers = GetMatchingBlingHandlers(@event);
-            foreach (object handler in matchingBlingHandlers)
+            foreach (dynamic handler in matchingBlingHandlers)
             {
-                MethodInfo handlerMethod = handler.GetType().GetMethod("Handle");
-                handlerMethod.Invoke(handler, new[] {@event});
+                BlingLogger.LogInfo(new Info("Starting dispatch.", DateTime.Now));
+                try
+                {
+                    handler.Handle(@event);
+                    BlingLogger.LogInfo(new Info("Finished dispatch.", DateTime.Now));
+                }
+                catch (Exception ex)
+                {
+                    BlingLogger.LogException(new Error(ex, DateTime.Now));
+                    throw;
+                }
             }
         }
 

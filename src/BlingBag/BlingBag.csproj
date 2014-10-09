@@ -41,14 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlingDispatcherBase.cs" />
+    <Compile Include="BlingLogger.cs" />
     <Compile Include="DefaultBlingConfigurator.cs" />
     <Compile Include="DefaultBlingDispatcher.cs" />
     <Compile Include="BlingHandlers.cs" />
     <Compile Include="BlingInitializer.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="IBlingConfigurator.cs" />
     <Compile Include="IBlingDispatcher.cs" />
     <Compile Include="IBlingHandler.cs" />
     <Compile Include="IBlingInitializer.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
