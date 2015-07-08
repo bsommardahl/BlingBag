@@ -26,6 +26,11 @@ namespace BlingBag
                     handlerMethod.Invoke(handler, new[] { @event });
                     BlingLogger.LogInfo(new Info("Finished dispatch.", DateTime.Now));
                 }
+                catch (TargetInvocationException ex)
+                {
+                    BlingLogger.LogException(new Error(ex.InnerException, DateTime.Now));
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     BlingLogger.LogException(new Error(ex, DateTime.Now));
