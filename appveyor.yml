@@ -1,4 +1,4 @@
-version: 1.0.4.{build}
+version: 1.4.0.{build}
 shallow_clone: true
 assembly_info:
   patch: true
