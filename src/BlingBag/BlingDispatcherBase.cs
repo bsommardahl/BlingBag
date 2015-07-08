@@ -14,7 +14,7 @@ namespace BlingBag
             IEnumerable matchingBlingHandlers = GetMatchingBlingHandlers(@event);
             foreach (object handler in matchingBlingHandlers)
             {
-                BlingLogger.LogInfo(new Info("Starting dispatch.", DateTime.Now));
+                BlingLogger.LogInfo(handler, new Info("Starting dispatch.", DateTime.Now));
                 try
                 {
                     MethodInfo handlerMethod =
@@ -24,16 +24,16 @@ namespace BlingBag
                                 x => x.Name == "Handle" && x.GetParameters().First().ParameterType == @event.GetType());
 
                     handlerMethod.Invoke(handler, new[] { @event });
-                    BlingLogger.LogInfo(new Info("Finished dispatch.", DateTime.Now));
+                    BlingLogger.LogInfo(handler, new Info("Finished dispatch.", DateTime.Now));
                 }
                 catch (TargetInvocationException ex)
                 {
-                    BlingLogger.LogException(new Error(ex.InnerException, DateTime.Now));
+                    BlingLogger.LogException(handler, new Error(ex.InnerException, DateTime.Now));
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    BlingLogger.LogException(new Error(ex, DateTime.Now));
+                    BlingLogger.LogException(handler, new Error(ex, DateTime.Now));
                     throw;
                 }
                 
