@@ -63,10 +63,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlingBag.StructureMap\BlingBag.StructureMap.csproj">
-      <Project>{C7DC7F8A-1A48-41E3-8084-549AEF5AE244}</Project>
-      <Name>BlingBag.StructureMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BlingBag\BlingBag.csproj">
       <Project>{3706AACA-DFF6-470B-BAEC-FFCA79DCEE68}</Project>
       <Name>BlingBag</Name>

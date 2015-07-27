@@ -1,7 +1,9 @@
-﻿namespace BlingBag
+﻿using System.Threading.Tasks;
+
+namespace BlingBag
 {
     public interface IBlingHandler<in T>
     {
-        void Handle(T @event);
+        Task Handle(T @event);
     }
 }

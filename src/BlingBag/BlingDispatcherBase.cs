@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BlingBag
 {
@@ -9,12 +10,12 @@ namespace BlingBag
     {
         #region IBlingDispatcher Members
 
-        public void Dispatch(object @event)
+        public async Task Dispatch(object @event)
         {
             IEnumerable matchingBlingHandlers = GetMatchingBlingHandlers(@event);
             foreach (object handler in matchingBlingHandlers)
             {
-                BlingLogger.LogInfo(handler, new Info("Starting dispatch.", DateTime.Now));
+                LogInfo(handler, DateTime.UtcNow, string.Format("Dispatching {0}...", handler.GetType().Name));
                 try
                 {
                     MethodInfo handlerMethod =
@@ -23,20 +24,24 @@ namespace BlingBag
                             .First(
                                 x => x.Name == "Handle" && x.GetParameters().First().ParameterType == @event.GetType());
 
-                    handlerMethod.Invoke(handler, new[] { @event });
-                    BlingLogger.LogInfo(handler, new Info("Finished dispatch.", DateTime.Now));
+                    await (Task) (handlerMethod.Invoke(handler, new[] {@event}));
+                    LogInfo(handler, DateTime.UtcNow, string.Format("Finished {0}.", handler.GetType().Name));
                 }
                 catch (TargetInvocationException ex)
                 {
-                    BlingLogger.LogException(handler, new Error(ex.InnerException, DateTime.Now));
+                    LogException(handler, DateTime.UtcNow, ex.InnerException);
+                    throw;
+                }
+                catch (AggregateException ex)
+                {
+                    LogException(handler, DateTime.UtcNow, ex.InnerException);
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    BlingLogger.LogException(handler, new Error(ex, DateTime.Now));
+                    LogException(handler, DateTime.UtcNow, ex);
                     throw;
                 }
-                
             }
         }
 
@@ -50,5 +55,7 @@ namespace BlingBag
         }
 
         protected abstract IEnumerable ResolveAll(Type blingHandlerType);
+        protected abstract void LogInfo(object handler, DateTime timeStamp, string message);
+        protected abstract void LogException(object handler, DateTime timeStamp, Exception exception);
     }
 }

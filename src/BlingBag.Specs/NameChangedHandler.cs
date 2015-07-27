@@ -1,10 +1,12 @@
-﻿namespace BlingBag.Specs
+﻿using System.Threading.Tasks;
+
+namespace BlingBag.Specs
 {
     public class NameChangedHandler : IBlingHandler<NameChanged>
     {
         #region IBlingHandler<NameChanged> Members
 
-        public void Handle(NameChanged @event)
+        public async Task Handle(NameChanged @event)
         {
         }
 

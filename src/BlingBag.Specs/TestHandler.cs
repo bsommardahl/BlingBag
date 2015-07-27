@@ -1,4 +1,6 @@
-﻿namespace BlingBag.Specs
+﻿using System.Threading.Tasks;
+
+namespace BlingBag.Specs
 {
     public class TestHandler : IBlingHandler<TestClass>
     {
@@ -6,7 +8,7 @@
 
         #region IBlingHandler<TestClass> Members
 
-        public void Handle(TestClass @event)
+        public async Task Handle(TestClass @event)
         {
             EventHandled = @event;
         }

@@ -1,7 +1,9 @@
-﻿namespace BlingBag
+﻿using System.Threading.Tasks;
+
+namespace BlingBag
 {
     public interface IBlingDispatcher
     {
-        void Dispatch(object @event);
+        Task Dispatch(object @event);
     }
 }

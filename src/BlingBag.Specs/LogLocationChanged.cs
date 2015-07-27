@@ -1,10 +1,12 @@
-﻿namespace BlingBag.Specs
+﻿using System.Threading.Tasks;
+
+namespace BlingBag.Specs
 {
     public class LogLocationChanged : IBlingHandler<LocationChanged>
     {
         #region IBlingHandler<LocationChanged> Members
 
-        public void Handle(LocationChanged @event)
+        public async Task Handle(LocationChanged @event)
         {
         }
 
