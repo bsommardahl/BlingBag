@@ -46,6 +46,8 @@
     <Compile Include="BlingDispatcherBase.cs" />
     <Compile Include="IBlingDispatcher.cs" />
     <Compile Include="IBlingHandler.cs" />
+    <Compile Include="IBlingLogger.cs" />
+    <Compile Include="ImmediateBlingDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
