@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -39,12 +40,21 @@ namespace BlingBag
             }
         }
 
-        async Task InvokeMethod(string methodName, object invokableObject, params object[] methodArgs)
+        async Task InvokeMethod(string methodName, object invokableObject, object methodArg)
         {
             try
             {
-                MethodInfo handlerMethod = invokableObject.GetType().GetMethod(methodName);
-                await (Task) handlerMethod.Invoke(invokableObject, methodArgs);
+                MethodInfo handlerMethod =
+                    invokableObject.GetType()
+                        .GetMethods()
+                        .FirstOrDefault(
+                            x =>
+                                x.Name == methodName &&
+                                x.GetParameters().Any(p => p.ParameterType == methodArg.GetType()));
+
+                if (handlerMethod == null) throw new Exception("No matching 'Handle' method found on handler.");
+
+                await (Task) handlerMethod.Invoke(invokableObject, new[] {methodArg});
             }
             catch (AggregateException ex)
             {
