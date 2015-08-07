@@ -19,7 +19,11 @@ namespace BlingBag
         protected override IEnumerable FindHandlers(object @event)
         {
             return
-                Handlers.Where(x => x.GetType().GetInterfaces().Any(i => i.GenericTypeArguments[0] == @event.GetType()));
+                Handlers.Where(
+                    x =>
+                        x.GetType()
+                            .GetInterfaces()
+                            .Any(i => i.GenericTypeArguments.Any() && i.GenericTypeArguments[0] == @event.GetType()));
         }
 
         protected override void LogInfo(object handler, DateTime timeStamp, string message)
