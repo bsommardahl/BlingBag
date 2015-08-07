@@ -23,6 +23,7 @@ namespace BlingBag
                     x =>
                         x.GetType()
                             .GetInterfaces()
+                            .Where(i => i.Name.StartsWith(typeof (IBlingHandler).Name))
                             .Any(i => i.GenericTypeArguments.Any() && i.GenericTypeArguments[0] == @event.GetType()));
         }
 
